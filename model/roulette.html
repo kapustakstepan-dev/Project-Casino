@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Roulette | Project Casino</title>
+    <link rel="stylesheet" href="../style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <style>
+        .game-container {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-lg);
+            padding: var(--spacing-xl) 0;
+            align-items: center;
+        }
+
+        @media (min-width: 900px) {
+            .game-container {
+                flex-direction: row;
+                justify-content: center;
+                align-items: stretch;
+            }
+        }
+
+        /* Wheel UI */
+        .wheel-wrapper {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            border: 4px solid var(--neon-purple);
+            box-shadow: 0 0 30px rgba(191, 64, 255, 0.4);
+            background: conic-gradient(from 0deg, #1f0133, #000, #1f0133);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .wheel-inner {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            border: 2px dashed rgba(255, 255, 255, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 3rem;
+            color: rgba(255, 255, 255, 0.1);
+        }
+
+        .ball {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            width: 15px;
+            height: 15px;
+            background: var(--neon-green);
+            border-radius: 50%;
+            box-shadow: 0 0 15px var(--neon-green);
+            transform: translateX(-50%);
+            transform-origin: 0 130px;
+            /* Radius */
+        }
+
+        /* Board UI */
+        .board-wrapper {
+            background: var(--bg-panel);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            flex: 1;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+        }
+
+        .bet-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            grid-template-rows: repeat(3, 60px);
+            gap: 4px;
+        }
+
+        .bet-cell {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Outfit';
+            font-weight: 700;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .bet-cell:hover,
+        .bet-cell.active {
+            background: rgba(57, 255, 20, 0.2);
+            border-color: var(--neon-green);
+            box-shadow: inset 0 0 10px rgba(57, 255, 20, 0.2);
+        }
+
+        .cell-red {
+            color: var(--neon-red);
+        }
+
+        .cell-black {
+            color: #888;
+        }
+
+        .bet-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: var(--spacing-md);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .chip-selector {
+            display: flex;
+            gap: 10px;
+        }
+
+        .chip {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            cursor: pointer;
+            border: 2px solid;
+            background: #000;
+            transition: transform 0.2s;
+        }
+
+        .chip:hover,
+        .chip.active {
+            transform: scale(1.1);
+        }
+
+        .chip-10 {
+            border-color: #fff;
+            color: #fff;
+        }
+
+        .chip-50 {
+            border-color: var(--neon-blue);
+            color: var(--neon-blue);
+        }
+
+        .chip-100 {
+            border-color: var(--neon-gold);
+            color: var(--neon-gold);
+        }
+
+        .chip-500 {
+            border-color: var(--neon-purple);
+            color: var(--neon-purple);
+        }
+
+        /* Floating bet amount */
+        .bet-amount-tag {
+            position: absolute;
+            background: var(--neon-gold);
+            color: #000;
+            font-size: 0.7rem;
+            padding: 2px 4px;
+            border-radius: 10px;
+            top: -5px;
+            right: -5px;
+            font-weight: bold;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="bg-canvas"></div>
+
+    <nav class="navbar" id="top-nav">
+        <a href="../index.html" class="nav-logo">
+            <div class="logo-accent"></div>
+            CASINO
+        </a>
+        <div class="nav-controls">
+            <div class="wallet-box" id="wallet-display">
+                <svg class="wallet-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2">
+                    <rect x="2" y="5" width="20" height="14" rx="2" ry="2"></rect>
+                    <line x1="2" y1="10" x2="22" y2="10"></line>
+                </svg>
+                <div class="wallet-balance">
+                    <span id="credits-amount">---</span>
+                    <span class="currency">CRD</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="game-container">
+
+            <!-- Left: Wheel -->
+            <div class="wheel-wrapper" id="wheel">
+                <div class="wheel-inner">❂</div>
+                <div class="ball" id="roulette-ball"></div>
+            </div>
+
+            <!-- Right: Board -->
+            <div class="board-wrapper">
+                <h2 class="neon-title" style="font-size: 1.5rem; text-align: center; margin-bottom: 0;">Cyber Roulette
+                </h2>
+
+                <div class="bet-grid" id="bet-grid">
+                    <!-- Handled by JS for brevity -->
+                </div>
+
+                <div class="bet-controls">
+                    <div class="chip-selector">
+                        <div class="chip chip-10 active" data-val="10">10</div>
+                        <div class="chip chip-50" data-val="50">50</div>
+                        <div class="chip chip-100" data-val="100">100</div>
+                        <div class="chip chip-500" data-val="500">500</div>
+                    </div>
+                    <button class="btn-neon" id="spin-btn">
+                        <span class="btn-bg"></span>
+                        <span>SPIN</span>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script src="../logic/wallet.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Generate Grid
+            const grid = document.getElementById('bet-grid');
+            let cellsHTML = '';
+            for (let i = 1; i <= 36; i++) {
+                const colorClass = (i % 2 === 0) ? 'cell-red' : 'cell-black';
+                cellsHTML += `<div class="bet-cell ${colorClass}" data-num="${i}" style="position:relative;">${i}</div>`;
+            }
+            grid.innerHTML = cellsHTML;
+
+            // 2. Chip Logic
+            let currentChipVal = 10;
+            document.querySelectorAll('.chip').forEach(chip => {
+                chip.addEventListener('click', (e) => {
+                    document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+                    e.target.classList.add('active');
+                    currentChipVal = parseInt(e.target.getAttribute('data-val'));
+                });
+            });
+
+            // 3. Betting Logic
+            let totalBet = 0;
+            let activeBets = {};
+
+            document.querySelectorAll('.bet-cell').forEach(cell => {
+                cell.addEventListener('click', () => {
+                    const num = cell.getAttribute('data-num');
+                    if (!activeBets[num]) activeBets[num] = 0;
+                    activeBets[num] += currentChipVal;
+                    totalBet += currentChipVal;
+
+                    cell.classList.add('active');
+
+                    let tag = cell.querySelector('.bet-amount-tag');
+                    if (!tag) {
+                        tag = document.createElement('div');
+                        tag.className = 'bet-amount-tag';
+                        cell.appendChild(tag);
+                    }
+                    tag.innerText = activeBets[num];
+
+                    // Small pop animation
+                    anime({
+                        targets: cell,
+                        scale: [0.9, 1],
+                        duration: 300
+                    });
+                });
+            });
+
+            // 4. Spin Action
+            const spinBtn = document.getElementById('spin-btn');
+            spinBtn.addEventListener('click', async () => {
+                if (totalBet === 0) return alert("Place a bet first!");
+
+                // Use wallet
+                const success = await window.casinoWallet.wager(totalBet);
+                if (!success) return; // Insufficient funds handled by wallet.js
+
+                spinBtn.disabled = true;
+                spinBtn.style.opacity = '0.5';
+
+                // Animate Ball
+                anime({
+                    targets: '#roulette-ball',
+                    rotate: [0, 360 * 5 + Math.floor(Math.random() * 360)], // 5 spins + random stop
+                    duration: 4000,
+                    easing: 'easeOutCubic',
+                    complete: async () => {
+                        // Fake win calculation (30% chance to win something based on bets)
+                        const winAmount = Math.random() > 0.7 ? totalBet * 2 : 0;
+
+                        if (winAmount > 0) {
+                            await window.casinoWallet.win(winAmount);
+                        }
+
+                        // Reset bets
+                        totalBet = 0;
+                        activeBets = {};
+                        document.querySelectorAll('.bet-amount-tag').forEach(el => el.remove());
+                        document.querySelectorAll('.bet-cell').forEach(el => el.classList.remove('active'));
+
+                        spinBtn.disabled = false;
+                        spinBtn.style.opacity = '1';
+                    }
+                });
+            });
+
+            // Page entry animation
+            anime({
+                targets: '.game-container > div',
+                translateY: [50, 0],
+                opacity: [0, 1],
+                delay: anime.stagger(200),
+                duration: 800,
+                easing: 'easeOutQuad'
+            });
+        });
+    </script>
+</body>
+
+</html>

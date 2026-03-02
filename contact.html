@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | Project Casino</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+</head>
+
+<body style="display:flex; flex-direction:column; min-height:100vh;">
+
+    <!-- Decorative Animated Canvas -->
+    <div id="bg-canvas"></div>
+
+    <!-- Top Navigation -->
+    <nav class="navbar" id="top-nav">
+        <a href="index.html" class="nav-logo">
+            <div class="logo-accent"></div>
+            <span data-i18n="nav.logo">CASINO</span>
+        </a>
+
+        <div class="nav-controls">
+            <div class="wallet-box">
+                <svg class="wallet-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="5" width="20" height="14" rx="2" ry="2"></rect>
+                    <line x1="2" y1="10" x2="22" y2="10"></line>
+                </svg>
+                <div class="wallet-balance">
+                    <span id="credits-amount">---</span>
+                    <span class="currency">CRD</span>
+                </div>
+            </div>
+            <div class="lang-switcher">
+                <button class="lang-btn" data-lang="en">EN</button>
+                <button class="lang-btn" data-lang="es">ES</button>
+                <button class="lang-btn" data-lang="uk">UK</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contact Form Section -->
+    <main class="container"
+        style="flex: 1; display:flex; flex-direction:column; justify-content:center; padding-top:var(--spacing-xl);">
+        <h1 class="neon-title text-center" style="text-align: center; font-size: 2.5rem;" data-i18n="contact.title">24/7
+            Support</h1>
+        <p class="hero-subtitle text-center" style="text-align: center;" data-i18n="contact.subtitle">
+            Have an issue with the simulation? Send us a message and our virtual operators will assist you.
+        </p>
+
+        <br>
+
+        <form class="minimal-form" onsubmit="event.preventDefault(); animateSubmitBtn();">
+            <div class="input-group">
+                <input type="text" id="name" class="input-field" placeholder=" " required />
+                <label for="name" class="input-label" data-i18n="contact.name">Your Name</label>
+                <div class="input-border"></div>
+            </div>
+
+            <div class="input-group">
+                <input type="email" id="email" class="input-field" placeholder=" " required />
+                <label for="email" class="input-label" data-i18n="contact.email">Your Email</label>
+                <div class="input-border"></div>
+            </div>
+
+            <div class="input-group" style="margin-top: 10px;">
+                <textarea id="message" class="input-field" placeholder=" " rows="4" required
+                    style="resize:none; padding-top:20px;"></textarea>
+                <label for="message" class="input-label" data-i18n="contact.message">Details</label>
+                <div class="input-border"></div>
+            </div>
+
+            <button type="submit" class="btn-neon" style="margin-top: var(--spacing-lg);" id="submit-btn">
+                <span class="btn-bg"></span>
+                <span data-i18n="contact.send">SEND TRANSMISSION</span>
+            </button>
+        </form>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="footer-nav">
+            <a href="index.html" class="footer-link" data-i18n="footer.home">Lobby / Home</a>
+            <a href="advertense.html" class="footer-link" data-i18n="footer.advertense">Responsible Gaming</a>
+        </div>
+        <div class="copyright" data-i18n="footer.copyright">© 2026 Project Casino. Simulator Only.</div>
+    </footer>
+
+    <script src="languages/i18n.js"></script>
+    <script src="logic/wallet.js"></script>
+
+    <!-- Contact Missing Translations Addition to global I18n will go here temporarily for testing -->
+    <script>
+        Object.assign(translations.en, {
+            "contact.title": "24/7 Support",
+            "contact.subtitle": "Have an issue with the simulation? Send us a message and our virtual operators will assist you.",
+            "contact.name": "Your Name",
+            "contact.email": "Your Email",
+            "contact.message": "Details",
+            "contact.send": "SEND TRANSMISSION",
+            "footer.home": "Lobby / Home"
+        });
+        Object.assign(translations.es, {
+            "contact.title": "Soporte 24/7",
+            "contact.subtitle": "¿Tienes algún problema con la simulación? Envíanos un mensaje y nuestros operadores te ayudarán.",
+            "contact.name": "Tu Nombre",
+            "contact.email": "Tu Correo Electrónico",
+            "contact.message": "Detalles",
+            "contact.send": "ENVIAR TRANSMISIÓN",
+            "footer.home": "Vestíbulo / Inicio"
+        });
+        Object.assign(translations.uk, {
+            "contact.title": "Підтримка 24/7",
+            "contact.subtitle": "Виникли проблеми з симуляцією? Надішліть нам повідомлення і віртуальні оператори допоможуть.",
+            "contact.name": "Ваше Ім'я",
+            "contact.email": "Ваш Email",
+            "contact.message": "Деталі",
+            "contact.send": "ВІДПРАВИТИ ДАНІ",
+            "footer.home": "Лобі / Головна"
+        });
+        if (window.i18n) window.i18n.setLanguage(window.i18n.currentLang);
+
+        // Form Anime.js Animations
+        document.addEventListener('DOMContentLoaded', () => {
+            // Input focus borders
+            const inputs = document.querySelectorAll('.input-field');
+
+            inputs.forEach(input => {
+                input.addEventListener('focus', () => {
+                    anime({
+                        targets: input.nextElementSibling.nextElementSibling, // .input-border
+                        scaleX: [0, 1],
+                        duration: 400,
+                        easing: 'customEease'
+                    });
+                });
+
+                input.addEventListener('blur', () => {
+                    anime({
+                        targets: input.nextElementSibling.nextElementSibling,
+                        scaleX: [1, 0],
+                        duration: 400,
+                        easing: 'easeOutSine'
+                    });
+                });
+            });
+
+            // Page enter stagger
+            anime({
+                targets: ['.minimal-form .input-group', '.btn-neon'],
+                translateY: [20, 0],
+                opacity: [0, 1],
+                delay: anime.stagger(150),
+                duration: 800,
+                easing: 'easeOutQuad'
+            });
+        });
+
+        // Custom Easing
+        anime.easings['customEease'] = function (t) {
+            return Math.pow(Math.sin(t * (Math.PI / 2)), 3);
+        };
+
+        function animateSubmitBtn() {
+            const btn = document.getElementById('submit-btn');
+
+            anime.timeline()
+                .add({
+                    targets: btn,
+                    scale: 0.9,
+                    duration: 100,
+                    easing: 'easeInQuad'
+                })
+                .add({
+                    targets: btn,
+                    scale: 1,
+                    background: '#39FF14',
+                    color: '#000',
+                    duration: 300,
+                    easing: 'easeOutQuad',
+                    complete: () => {
+                        setTimeout(() => {
+                            btn.style.background = ''; // reset
+                            btn.style.color = '';
+                            document.querySelector('.minimal-form').reset();
+                        }, 1500);
+                    }
+                });
+        }
+    </script>
+</body>
+
+</html>

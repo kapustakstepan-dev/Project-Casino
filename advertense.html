@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsible Gaming | Project Casino</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+</head>
+
+<body style="display:flex; flex-direction:column; min-height:100vh;">
+
+    <!-- Decorative Animated Canvas -->
+    <div id="bg-canvas"></div>
+
+    <!-- Top Navigation -->
+    <nav class="navbar" id="top-nav">
+        <a href="index.html" class="nav-logo">
+            <div class="logo-accent"></div>
+            <!-- Note: We're reusing translation keys -->
+            <span data-i18n="nav.logo">CASINO</span>
+        </a>
+
+        <div class="nav-controls">
+            <div class="wallet-box">
+                <svg class="wallet-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="5" width="20" height="14" rx="2" ry="2"></rect>
+                    <line x1="2" y1="10" x2="22" y2="10"></line>
+                </svg>
+                <div class="wallet-balance">
+                    <span id="credits-amount">---</span>
+                    <span class="currency">CRD</span>
+                </div>
+            </div>
+            <div class="lang-switcher">
+                <button class="lang-btn" data-lang="en">EN</button>
+                <button class="lang-btn" data-lang="es">ES</button>
+                <button class="lang-btn" data-lang="uk">UK</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Partner Brands Marquee Section -->
+    <div class="marquee-container" id="brands-marquee">
+        <div class="marquee-content" id="m-content1">
+            <span class="partner-logo">NEON CORP</span>
+            <span class="partner-logo">CYBERTECH INC</span>
+            <span class="partner-logo">VIRTUAL BETTING AG</span>
+            <span class="partner-logo">QUANTUM GAMES</span>
+            <span class="partner-logo">CRYPTO CASINO ALLIANCE</span>
+            <span class="partner-logo">GLOW ENTERTAINMENT</span>
+        </div>
+        <!-- Duplicate for infinite scroll -->
+        <div class="marquee-content" id="m-content2" aria-hidden="true">
+            <span class="partner-logo">NEON CORP</span>
+            <span class="partner-logo">CYBERTECH INC</span>
+            <span class="partner-logo">VIRTUAL BETTING AG</span>
+            <span class="partner-logo">QUANTUM GAMES</span>
+            <span class="partner-logo">CRYPTO CASINO ALLIANCE</span>
+            <span class="partner-logo">GLOW ENTERTAINMENT</span>
+        </div>
+    </div>
+
+    <!-- Advertense / Responsible Gaming Content -->
+    <main class="container" style="flex: 1; padding: var(--spacing-xl) var(--spacing-lg); max-width: 800px;">
+        <h1 class="neon-title" style="font-size: 2.2rem; margin-bottom: var(--spacing-lg);" data-i18n="adv.title">
+            Responsible Gaming & Principles</h1>
+
+        <div
+            style="background: var(--bg-panel); padding: var(--spacing-lg); border-radius: var(--border-radius); border-left: 4px solid var(--neon-red); margin-bottom: var(--spacing-lg);">
+            <h3 style="color: var(--neon-red); margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.5rem;"
+                data-i18n="adv.warning_title">18+ ONLY (SIMULATION)</h3>
+            <p style="color: var(--text-main); line-height: 1.6;" data-i18n="adv.warning_desc">
+                Project Casino is a purely visual, front-end simulation. No real money can be deposited, wagered, or
+                won. The fictional credits (CRD) generated within the system hold absolutely zero monetary value. We
+                enforce responsible development by reminding users that if this were a real gambling application, age
+                restrictions and intense regulatory caution would apply.
+            </p>
+        </div>
+
+        <h2 style="font-family: 'Outfit'; color: var(--neon-blue); margin-top: var(--spacing-lg); margin-bottom: var(--spacing-sm);"
+            data-i18n="adv.limits_title">Know Your Limits</h2>
+        <p style="color: var(--text-muted); line-height: 1.6;" data-i18n="adv.limits_desc">
+            In the real world, gaming should always remain an entertainment expense, never a way to make money. Setting
+            strict deposit limits, time limits, and knowing when to step away from the screen are fundamental principles
+            of responsible play.
+        </p>
+
+        <h2 style="font-family: 'Outfit'; color: var(--neon-purple); margin-top: var(--spacing-lg); margin-bottom: var(--spacing-sm);"
+            data-i18n="adv.help_title">Seeking Help</h2>
+        <p style="color: var(--text-muted); line-height: 1.6;" data-i18n="adv.help_desc">
+            If you or someone you know develops problematic patterns with gambling, seek professional help immediately.
+            Organizations worldwide provide free, confidential resources.
+        </p>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="footer-nav">
+            <a href="index.html" class="footer-link" data-i18n="footer.home">Lobby / Home</a>
+            <a href="contact.html" class="footer-link" data-i18n="footer.contact">Contact Us</a>
+        </div>
+        <div class="copyright" data-i18n="footer.copyright">© 2026 Project Casino. Simulator Only.</div>
+    </footer>
+
+    <script src="languages/i18n.js"></script>
+    <script src="logic/wallet.js"></script>
+
+    <script>
+        // Add Translations dynamically for this page
+        Object.assign(translations.en, {
+            "adv.title": "Responsible Gaming & Principles",
+            "adv.warning_title": "18+ ONLY (SIMULATION)",
+            "adv.warning_desc": "Project Casino is a purely visual, front-end simulation. No real money can be deposited, wagered, or won. The fictional credits (CRD) generated within the system hold absolutely zero monetary value. We enforce responsible development by reminding users that if this were a real gambling application, age restrictions and intense regulatory caution would apply.",
+            "adv.limits_title": "Know Your Limits",
+            "adv.limits_desc": "In the real world, gaming should always remain an entertainment expense, never a way to make money. Setting strict deposit limits, time limits, and knowing when to step away from the screen are fundamental principles of responsible play.",
+            "adv.help_title": "Seeking Help",
+            "adv.help_desc": "If you or someone you know develops problematic patterns with gambling, seek professional help immediately. Organizations worldwide provide free, confidential resources."
+        });
+        Object.assign(translations.es, {
+            "adv.title": "Juego Responsable y Principios",
+            "adv.warning_title": "SOLO +18 (SIMULACIÓN)",
+            "adv.warning_desc": "Project Casino es solo una simulación visual. No se puede depositar, apostar ni ganar dinero real. Los créditos ficticios (CRD) no tienen valor monetario. Si esto fuera real, se aplicarían estrictas restricciones de edad y regulaciones.",
+            "adv.limits_title": "Conoce Tus Límites",
+            "adv.limits_desc": "El juego debe ser siempre una forma de entretenimiento, nunca una forma de ganar dinero. Establecer límites de tiempo y depósitos es fundamental para un juego responsable.",
+            "adv.help_title": "Buscando Ayuda",
+            "adv.help_desc": "Si usted o alguien que conoce desarrolla patrones problemáticos con el juego, busque ayuda profesional inmediatamente. Hay asistencia en todo el mundo."
+        });
+        Object.assign(translations.uk, {
+            "adv.title": "Відповідальна Гра та Принципи",
+            "adv.warning_title": "ЛИШЕ 18+ (СИМУЛЯЦІЯ)",
+            "adv.warning_desc": "Project Casino - це суто візуальна фронтенд-симуляція. Жодних реальних грошей не можна вносити, ставити або вигравати. Вигадані кредити (CRD) не мають монетарної цінності.",
+            "adv.limits_title": "Знайте Свої Межі",
+            "adv.limits_desc": "У реальному світі гра завжди повинна залишатися розвагою, а не способом заробітку. Встановлення лімітів і розуміння, коли треба зупинитися - основи відповідальної гри.",
+            "adv.help_title": "Пошук Допомоги",
+            "adv.help_desc": "Якщо у вас або у ваших знайомих виникли проблеми з азартними іграми, негайно зверніться за професійною допомогою."
+        });
+
+        if (window.i18n) window.i18n.setLanguage(window.i18n.currentLang);
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Anime.js loop translation for Marquee
+            // Get the width of one section to translate accurately
+            const contentWidth = document.getElementById('m-content1').offsetWidth;
+
+            anime({
+                targets: ['#m-content1', '#m-content2'],
+                translateX: function () {
+                    // Both move left by exactly one full content width
+                    return `-${contentWidth}px`;
+                },
+                duration: 25000,
+                easing: 'linear',
+                loop: true
+            });
+
+            // Simple enter animation for text
+            anime({
+                targets: 'main > *',
+                translateY: [20, 0],
+                opacity: [0, 1],
+                delay: anime.stagger(150),
+                duration: 800,
+                easing: 'easeOutQuad'
+            });
+        });
+    </script>
+</body>
+
+</html>

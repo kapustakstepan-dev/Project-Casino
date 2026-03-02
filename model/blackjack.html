@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neon Blackjack | Project Casino</title>
+    <link rel="stylesheet" href="../style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <style>
+        .game-table {
+            min-height: 70vh;
+            background: rgba(1, 51, 28, 0.2);
+            border: 1px solid rgba(57, 255, 20, 0.1);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-xl);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+            margin-top: var(--spacing-xl);
+        }
+
+        /* Grid lines for style */
+        .game-table::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: linear-gradient(rgba(57, 255, 20, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(57, 255, 20, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .hand-area {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--spacing-md);
+        }
+
+        .hand-title {
+            font-family: 'Outfit';
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 1rem;
+        }
+
+        .cards-container {
+            display: flex;
+            gap: -40px;
+            /* Cards overlap slightly */
+            min-height: 160px;
+        }
+
+        .card {
+            width: 110px;
+            height: 160px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: -5px 5px 15px rgba(0, 0, 0, 0.5);
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2.5rem;
+            font-family: 'Inter';
+            font-weight: 800;
+            color: #000;
+            /* Initial state for anime.js */
+            opacity: 0;
+            transform: translateY(-50px) rotate(-10deg);
+        }
+
+        .card.card-red {
+            color: var(--neon-red);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            inset: 4px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+            pointer-events: none;
+        }
+
+        .card-deck {
+            position: absolute;
+            right: 50px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 110px;
+            height: 160px;
+            background: repeating-linear-gradient(45deg, #111, #111 10px, #222 10px, #222 20px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            box-shadow: 2px 2px 0 #fff, 4px 4px 0 #fff;
+            z-index: 0;
+        }
+
+        .controls-area {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-lg);
+        }
+
+        .bet-input {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--neon-green);
+            color: var(--neon-green);
+            padding: 10px;
+            border-radius: 4px;
+            width: 100px;
+            text-align: center;
+            font-family: 'Outfit';
+            font-size: 1.2rem;
+            outline: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="bg-canvas"></div>
+
+    <nav class="navbar" id="top-nav">
+        <a href="../index.html" class="nav-logo">
+            <div class="logo-accent"></div>
+            CASINO
+        </a>
+        <div class="nav-controls">
+            <div class="wallet-box" id="wallet-display">
+                <svg class="wallet-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2">
+                    <rect x="2" y="5" width="20" height="14" rx="2" ry="2"></rect>
+                    <line x1="2" y1="10" x2="22" y2="10"></line>
+                </svg>
+                <div class="wallet-balance">
+                    <span id="credits-amount">---</span>
+                    <span class="currency">CRD</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="game-table">
+
+            <!-- Deck graphic -->
+            <div class="card-deck"></div>
+
+            <!-- Dealer Hand -->
+            <div class="hand-area">
+                <div class="hand-title">Dealer <span id="dealer-score"></span></div>
+                <div class="cards-container" id="dealer-cards">
+                    <!-- Cards injected by JS -->
+                </div>
+            </div>
+
+            <!-- Player Hand -->
+            <div class="hand-area">
+                <div class="hand-title">Player <span id="player-score" style="color:var(--neon-green);"></span></div>
+                <div class="cards-container" id="player-cards">
+                    <!-- Cards injected by JS -->
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <div class="controls-area" id="bet-controls">
+                <input type="number" id="bet-amount" class="bet-input" value="100" min="10" step="10">
+                <button class="btn-neon" id="deal-btn" style="--neon-blue: var(--neon-green);">
+                    <span class="btn-bg" style="background: var(--neon-green);"></span>
+                    <span style="color:#fff;">DEAL</span>
+                </button>
+            </div>
+
+            <div class="controls-area" id="game-controls" style="display: none;">
+                <button class="btn-neon secondary" id="hit-btn">HIT</button>
+                <button class="btn-neon" id="stand-btn" style="--neon-blue: var(--neon-red);">
+                    <span class="btn-bg" style="background: var(--neon-red);"></span>
+                    <span style="color:#fff;">STAND</span>
+                </button>
+            </div>
+
+        </div>
+    </main>
+
+    <script src="../logic/wallet.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const dealBtn = document.getElementById('deal-btn');
+            const hitBtn = document.getElementById('hit-btn');
+            const standBtn = document.getElementById('stand-btn');
+            const betInput = document.getElementById('bet-amount');
+            const betControls = document.getElementById('bet-controls');
+            const gameControls = document.getElementById('game-controls');
+
+            const playerCardsDiv = document.getElementById('player-cards');
+            const dealerCardsDiv = document.getElementById('dealer-cards');
+
+            let currentBet = 0;
+
+            // Dummy Card Generator for visual effect
+            const getCardHTML = (val, suit) => {
+                const isRed = suit === '♥' || suit === '♦';
+                return `<div class="card ${isRed ? 'card-red' : ''}">${val}<br><span style="font-size:1rem;">${suit}</span></div>`;
+            };
+
+            const animateCardDraw = (targetSelector) => {
+                return anime({
+                    targets: targetSelector,
+                    opacity: [0, 1],
+                    translateY: [-100, 0], // Drop in
+                    translateX: [200, 0], // Come from deck
+                    rotate: [-20, 0],
+                    duration: 600,
+                    easing: 'easeOutElastic(1, .8)'
+                }).finished;
+            };
+
+            dealBtn.addEventListener('click', async () => {
+                currentBet = parseInt(betInput.value);
+                if (currentBet <= 0) return;
+
+                const success = await window.casinoWallet.wager(currentBet);
+                if (!success) return;
+
+                // Reset Table
+                playerCardsDiv.innerHTML = '';
+                dealerCardsDiv.innerHTML = '';
+                document.getElementById('player-score').innerText = '20'; // Fake score
+                document.getElementById('dealer-score').innerText = '10';
+
+                // Swap UI
+                anime({
+                    targets: betControls,
+                    opacity: 0,
+                    duration: 300,
+                    complete: () => {
+                        betControls.style.display = 'none';
+                        gameControls.style.display = 'flex';
+                        anime({ targets: gameControls, opacity: [0, 1], duration: 300 });
+                    }
+                });
+
+                // "Deal" Cards
+                playerCardsDiv.innerHTML += getCardHTML('K', '♠');
+                await animateCardDraw('#player-cards .card:last-child');
+
+                dealerCardsDiv.innerHTML += getCardHTML('J', '♦');
+                await animateCardDraw('#dealer-cards .card:last-child');
+
+                playerCardsDiv.innerHTML += getCardHTML('Q', '♥');
+                await animateCardDraw('#player-cards .card:last-child');
+
+                // Hole card for dealer
+                dealerCardsDiv.innerHTML += `<div class="card" style="background:#111; color:#111;">?</div>`;
+                await animateCardDraw('#dealer-cards .card:last-child');
+            });
+
+            hitBtn.addEventListener('click', async () => {
+                // Add card
+                playerCardsDiv.innerHTML += getCardHTML('A', '♣');
+                document.getElementById('player-score').innerText = '21';
+                await animateCardDraw('#player-cards .card:last-child');
+            });
+
+            standBtn.addEventListener('click', async () => {
+                // Reveal hole card
+                dealerCardsDiv.lastChild.outerHTML = getCardHTML('8', '♠');
+                document.getElementById('dealer-score').innerText = '18';
+
+                // Player Wins
+                await window.casinoWallet.win(currentBet * 2);
+
+                setTimeout(() => {
+                    // Reset UI
+                    betControls.style.display = 'flex';
+                    gameControls.style.display = 'none';
+                    betControls.style.opacity = 1;
+                    playerCardsDiv.innerHTML = '';
+                    dealerCardsDiv.innerHTML = '';
+                    document.getElementById('player-score').innerText = '';
+                    document.getElementById('dealer-score').innerText = '';
+                }, 2000);
+            });
+
+            // Intro Animation
+            anime({
+                targets: '.game-table',
+                scale: [0.95, 1],
+                opacity: [0, 1],
+                duration: 1000,
+                easing: 'easeOutExpo'
+            });
+        });
+    </script>
+</body>
+
+</html>

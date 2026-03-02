@@ -1,0 +1,421 @@
+/* =========================================
+   STYLE.CSS - PROJECT CASINO (Anime.js Homage)
+   ========================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+
+:root {
+    /* Matte Black Background */
+    --bg-color: #0b0c10;
+    --surface-color: #12141a;
+
+    /* Electric Neon Colors */
+    --neon-gold: #FFD700;
+    --neon-cyan: #00F0FF;
+    --neon-magenta: #FF00FF;
+    --jackpot-red: #FF073A;
+
+    /* Text */
+    --text-main: #FFFFFF;
+    --text-muted: #6b7280;
+    --text-dark: #0b0c10;
+
+    --font-sans: 'Inter', sans-serif;
+    --font-mono: 'Space Mono', monospace;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* =========================================
+   BACKGROUND SVG ANIMATIONS
+   ========================================= */
+.bg-animation-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.bg-shape {
+    position: absolute;
+    fill: none;
+    stroke-width: 1;
+    stroke: var(--neon-cyan);
+    opacity: 0.15;
+}
+
+/* =========================================
+   NAVBAR
+   ========================================= */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 4rem;
+    z-index: 10;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+/* SVG Logo */
+.logo-svg {
+    width: 40px;
+    height: 40px;
+    fill: none;
+    stroke: var(--neon-gold);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.logo-text {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 1.5rem;
+    letter-spacing: 0.2rem;
+    display: flex;
+    overflow: hidden;
+}
+
+.letter {
+    display: inline-block;
+    transform-origin: 50% 100%;
+}
+
+/* Top Right Controls */
+.controls {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+/* Wallet */
+.wallet {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--surface-color);
+    padding: 0.5rem 1rem;
+    border: 1px solid rgba(0, 240, 255, 0.2);
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-weight: 700;
+    position: relative;
+    overflow: hidden;
+}
+
+.wallet-amount {
+    color: var(--neon-cyan);
+    font-size: 1.2rem;
+    display: inline-block;
+}
+
+/* Language Switcher */
+.lang-switcher {
+    display: flex;
+    gap: 1rem;
+}
+
+.lang-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-weight: 700;
+    cursor: pointer;
+    position: relative;
+    font-size: 0.9rem;
+    transition: color 0.3s;
+}
+
+.lang-btn::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--neon-magenta);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.lang-btn:hover {
+    color: var(--text-main);
+}
+
+.lang-btn.active {
+    color: var(--text-main);
+}
+
+.lang-btn.active::after {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+/* =========================================
+   MAIN HERO
+   ========================================= */
+.hero {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 4rem 2rem;
+}
+
+.hero-title {
+    font-family: var(--font-mono);
+    font-size: 4rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -2px;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    color: var(--text-main);
+    /* Text split into lines/words/letters via JS */
+}
+
+.hero-title .word {
+    display: inline-block;
+    overflow: hidden;
+    padding-bottom: 10px;
+    /* Space for descenders */
+    margin-right: 15px;
+}
+
+.hero-subtitle {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    max-width: 600px;
+    line-height: 1.6;
+    margin-bottom: 3rem;
+    opacity: 0;
+    /* Animated in */
+}
+
+/* =========================================
+   BUTTONS (Anime.js style border draw)
+   ========================================= */
+.btn-wrapper {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.btn-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.btn-svg rect {
+    fill: none;
+    stroke: var(--neon-gold);
+    stroke-width: 2;
+    stroke-dasharray: 400;
+    /* Approximate max perimeter */
+    stroke-dashoffset: 400;
+}
+
+.btn-text-content {
+    position: relative;
+    padding: 1rem 3rem;
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 2px;
+    color: var(--neon-gold);
+    background: transparent;
+    display: flex;
+    overflow: hidden;
+    z-index: 1;
+    border: 1px solid rgba(255, 215, 0, 0.2);
+}
+
+.btn-letter {
+    display: inline-block;
+    white-space: pre;
+}
+
+/* =========================================
+   GAME LAUNCHER GRID 
+   ========================================= */
+.grid-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto 4rem auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    perspective: 1000px;
+}
+
+.game-card-wrapper {
+    position: relative;
+    height: 400px;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.game-card {
+    width: 100%;
+    height: 100%;
+    background: var(--surface-color);
+    border-radius: 8px;
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 2rem;
+    transform-style: preserve-3d;
+}
+
+.card-svg-border {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    border-radius: 8px;
+}
+
+.card-svg-border rect {
+    fill: none;
+    stroke-width: 2;
+    stroke-dasharray: 1400;
+    /* Approximate perimeter 2*(300+400) */
+    stroke-dashoffset: 1400;
+    rx: 8;
+    ry: 8;
+}
+
+.c-roulette rect {
+    stroke: var(--neon-cyan);
+}
+
+.c-blackjack rect {
+    stroke: var(--neon-magenta);
+}
+
+.c-sports rect {
+    stroke: var(--neon-gold);
+}
+
+.game-icon-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100px;
+    height: 100px;
+}
+
+.game-icon-svg {
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    opacity: 0.3;
+}
+
+.c-roulette .game-icon-svg {
+    stroke: var(--neon-cyan);
+}
+
+.c-blackjack .game-icon-svg {
+    stroke: var(--neon-magenta);
+}
+
+.c-sports .game-icon-svg {
+    stroke: var(--neon-gold);
+}
+
+.card-content {
+    transform: translateZ(50px);
+    /* 3D effect internally */
+}
+
+.card-title {
+    font-family: var(--font-mono);
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    overflow: hidden;
+    display: flex;
+}
+
+.c-roulette .card-title {
+    color: var(--neon-cyan);
+}
+
+.c-blackjack .card-title {
+    color: var(--neon-magenta);
+}
+
+.c-sports .card-title {
+    color: var(--neon-gold);
+}
+
+.card-desc {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    transform: translateY(20px);
+    opacity: 0;
+}
+
+/* Footer links */
+.footer-links {
+    margin-top: auto;
+    padding: 2rem;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.footer-link {
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-link:hover {
+    color: var(--neon-cyan);
+}

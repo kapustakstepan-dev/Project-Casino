@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Sports | Project Casino</title>
+    <link rel="stylesheet" href="../style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <style>
+        .sports-layout {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--spacing-lg);
+            padding: var(--spacing-xl) 0;
+        }
+
+        @media (min-width: 900px) {
+            .sports-layout {
+                grid-template-columns: 2fr 1fr;
+            }
+        }
+
+        /* Match List Column */
+        .match-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+        }
+
+        .match-card {
+            background: var(--bg-panel);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            transition: all 0.3s ease;
+        }
+
+        .match-card:hover {
+            border-color: var(--neon-gold);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.1);
+        }
+
+        .match-header {
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            margin-bottom: var(--spacing-md);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 8px;
+        }
+
+        .match-teams {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Outfit';
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .vs {
+            color: var(--neon-red);
+            font-size: 0.9rem;
+        }
+
+        .odds-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+        }
+
+        .odd-btn {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: all 0.2s;
+        }
+
+        .odd-btn:hover,
+        .odd-btn.selected {
+            background: var(--neon-blue);
+            color: #000;
+            border-color: var(--neon-blue);
+        }
+
+        .odd-val {
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .odd-lbl {
+            font-size: 0.7rem;
+            opacity: 0.8;
+        }
+
+        /* Bet Slip Column */
+        .bet-slip {
+            background: #0f1118;
+            border-radius: var(--border-radius);
+            border-top: 4px solid var(--neon-gold);
+            padding: var(--spacing-lg);
+            display: flex;
+            flex-direction: column;
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .slip-title {
+            font-family: 'Outfit';
+            font-size: 1.5rem;
+            margin-bottom: var(--spacing-md);
+            text-align: center;
+        }
+
+        .slip-empty {
+            color: var(--text-muted);
+            text-align: center;
+            padding: var(--spacing-lg) 0;
+            font-style: italic;
+        }
+
+        .slip-item {
+            background: rgba(255, 255, 255, 0.02);
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            border-left: 3px solid var(--neon-blue);
+        }
+
+        .slip-input {
+            width: 100%;
+            background: #000;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--neon-gold);
+            padding: 12px;
+            border-radius: 4px;
+            margin: var(--spacing-md) 0;
+            font-family: 'Outfit';
+            font-size: 1.2rem;
+            text-align: right;
+        }
+
+        .slip-total {
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: var(--spacing-md);
+            margin-top: auto;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="bg-canvas"></div>
+
+    <nav class="navbar" id="top-nav">
+        <a href="../index.html" class="nav-logo">
+            <div class="logo-accent"></div>
+            CASINO
+        </a>
+        <div class="nav-controls">
+            <div class="wallet-box" id="wallet-display">
+                <svg class="wallet-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2">
+                    <rect x="2" y="5" width="20" height="14" rx="2" ry="2"></rect>
+                    <line x1="2" y1="10" x2="22" y2="10"></line>
+                </svg>
+                <div class="wallet-balance">
+                    <span id="credits-amount">---</span>
+                    <span class="currency">CRD</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="sports-layout">
+
+            <!-- Match List -->
+            <div class="match-list">
+                <h2 class="neon-title" style="font-size: 2rem;">Live Cyber Matches</h2>
+
+                <!-- Match 1 -->
+                <div class="match-card">
+                    <div class="match-header"><span>Cyber Football</span> <span>LIVE 78'</span></div>
+                    <div class="match-teams">
+                        <span>Neon Strikers</span>
+                        <span class="vs">VS</span>
+                        <span>Quantum FC</span>
+                    </div>
+                    <div class="odds-row">
+                        <button class="odd-btn" onclick="addToSlip('Neon Strikers', 2.10, this)">
+                            <span class="odd-lbl">1</span>
+                            <span class="odd-val">2.10</span>
+                        </button>
+                        <button class="odd-btn" onclick="addToSlip('Draw', 3.50, this)">
+                            <span class="odd-lbl">X</span>
+                            <span class="odd-val">3.50</span>
+                        </button>
+                        <button class="odd-btn" onclick="addToSlip('Quantum FC', 1.85, this)">
+                            <span class="odd-lbl">2</span>
+                            <span class="odd-val">1.85</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Match 2 -->
+                <div class="match-card">
+                    <div class="match-header"><span>Hyper Racing</span> <span>Starts in 5m</span></div>
+                    <div class="match-teams">
+                        <span>Redline Auto</span>
+                        <span class="vs">VS</span>
+                        <span>Vortex Motors</span>
+                    </div>
+                    <div class="odds-row">
+                        <button class="odd-btn" onclick="addToSlip('Redline Auto', 1.50, this)">
+                            <span class="odd-lbl">1</span>
+                            <span class="odd-val">1.50</span>
+                        </button>
+                        <button class="odd-btn" onclick="addToSlip('Draw', 5.00, this)">
+                            <span class="odd-lbl">X</span>
+                            <span class="odd-val">5.00</span>
+                        </button>
+                        <button class="odd-btn" onclick="addToSlip('Vortex Motors', 2.90, this)">
+                            <span class="odd-lbl">2</span>
+                            <span class="odd-val">2.90</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bet Slip -->
+            <div class="bet-slip" id="bet-slip">
+                <div class="slip-title">Bet Slip</div>
+
+                <div id="slip-content">
+                    <div class="slip-empty">Click odds to add selections</div>
+                </div>
+
+                <div style="display:none;" id="slip-active">
+                    <input type="number" id="wager-input" class="slip-input" value="100" min="10">
+                    <div class="slip-total">
+                        <span>Pot. Return:</span>
+                        <span id="pot-return" style="color:var(--neon-green);">210 CRD</span>
+                    </div>
+                    <button class="btn-neon" style="width:100%; margin-top:var(--spacing-md);" id="place-bet-btn">
+                        <span class="btn-bg"></span>
+                        <span style="color:#fff;">PLACE BET</span>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script src="../logic/wallet.js"></script>
+    <script>
+        let currentSelection = null;
+
+        function addToSlip(team, odds, btnEl) {
+            // Reset visual state
+            document.querySelectorAll('.odd-btn').forEach(b => b.classList.remove('selected'));
+            btnEl.classList.add('selected');
+
+            // Update slip UI
+            document.getElementById('slip-content').innerHTML = `
+          <div class="slip-item">
+             <div style="font-weight:bold; margin-bottom:5px;">${team}</div>
+             <div style="color:var(--neon-blue);">Odds: ${odds}</div>
+          </div>
+       `;
+
+            currentSelection = { team, odds };
+            document.getElementById('slip-active').style.display = 'block';
+
+            anime({
+                targets: '#bet-slip',
+                borderColor: ['#FFD700', '#00F0FF', '#FFD700'],
+                duration: 800,
+                easing: 'easeInOutSine'
+            });
+
+            updateReturn();
+        }
+
+        function updateReturn() {
+            if (!currentSelection) return;
+            const wager = parseFloat(document.getElementById('wager-input').value) || 0;
+            const potReturn = (wager * currentSelection.odds).toFixed(2);
+            document.getElementById('pot-return').innerText = `${potReturn} CRD`;
+        }
+
+        document.getElementById('wager-input').addEventListener('input', updateReturn);
+
+        document.getElementById('place-bet-btn').addEventListener('click', async () => {
+            const wager = parseFloat(document.getElementById('wager-input').value);
+            if (wager <= 0) return;
+
+            const success = await window.casinoWallet.wager(wager);
+            if (success) {
+                // Simulate game wait then win
+                const btn = document.getElementById('place-bet-btn');
+                btn.innerHTML = 'PROCESSING...';
+                btn.disabled = true;
+
+                setTimeout(async () => {
+                    // Fake win 
+                    await window.casinoWallet.win(wager * currentSelection.odds);
+                    btn.innerHTML = 'BET WON!';
+                    btn.style.borderColor = '#39FF14';
+
+                    setTimeout(() => {
+                        // Reset
+                        btn.innerHTML = '<span class="btn-bg"></span><span style="color:#fff;">PLACE BET</span>';
+                        btn.disabled = false;
+                        btn.style.borderColor = '';
+                        document.querySelectorAll('.odd-btn').forEach(b => b.classList.remove('selected'));
+                        document.getElementById('slip-content').innerHTML = '<div class="slip-empty">Click odds to add selections</div>';
+                        document.getElementById('slip-active').style.display = 'none';
+                    }, 2000);
+                }, 3000);
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            anime({
+                targets: '.match-card',
+                translateX: [-50, 0],
+                opacity: [0, 1],
+                delay: anime.stagger(150),
+                duration: 800,
+                easing: 'easeOutQuad'
+            });
+        });
+    </script>
+</body>
+
+</html>
