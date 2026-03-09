@@ -4,133 +4,210 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Project Casino | Casino Royale</title>
+  <title>Contact | Project Casino</title>
   <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  <style>
+    /* General Body */
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(to bottom, #0b0b0b, #1f1f1f);
+      color: #f0f0f0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Navbar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background-color: #111;
+      border-bottom: 2px solid #d4af37;
+    }
+
+    .nav-logo span {
+      font-weight: bold;
+      font-size: 1.5rem;
+      color: #d4af37;
+    }
+
+    /* Main container */
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 3rem 1rem;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      color: #d4af37;
+    }
+
+    p {
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+      max-width: 600px;
+      color: #ccc;
+    }
+
+    /* Form styling */
+    .contact-form {
+      background: rgba(20, 20, 20, 0.9);
+      padding: 2rem;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 450px;
+      box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+    }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 12px 12px;
+      border-radius: 6px;
+      border: 1px solid #555;
+      background: #111;
+      color: #f0f0f0;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    .input-field:focus {
+      border-color: #d4af37;
+      box-shadow: 0 0 10px #d4af37;
+    }
+
+    .input-label {
+      position: absolute;
+      top: 50%;
+      left: 12px;
+      transform: translateY(-50%);
+      color: #aaa;
+      font-size: 0.9rem;
+      pointer-events: none;
+      transition: all 0.3s ease;
+    }
+
+    .input-field:focus+.input-label,
+    .input-field:not(:placeholder-shown)+.input-label {
+      top: -8px;
+      left: 10px;
+      font-size: 0.8rem;
+      color: #d4af37;
+      background: #111;
+      padding: 0 4px;
+    }
+
+    button.submit-btn {
+      width: 100%;
+      padding: 12px;
+      background: #d4af37;
+      border: none;
+      border-radius: 6px;
+      color: #111;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    button.submit-btn:hover {
+      background: #b58f2d;
+      transform: scale(1.03);
+    }
+
+    /* Footer */
+    footer {
+      background: #111;
+      text-align: center;
+      padding: 1rem 0;
+      border-top: 2px solid #d4af37;
+      font-size: 0.9rem;
+      color: #ccc;
+    }
+
+    footer a {
+      color: #d4af37;
+      text-decoration: none;
+      margin: 0 0.5rem;
+      transition: color 0.3s;
+    }
+
+    footer a:hover {
+      color: #fff;
+    }
+  </style>
 </head>
 
 <body>
-
-  <!-- capa de animacion de fondo -->
-  <div class="bg-animation-container" id="bg-canvas">
-    <!-- formas svg generadas por js -->
-  </div>
-
+  <!-- Navbar -->
   <nav class="navbar">
-    <div class="logo-container">
-      <svg class="logo-svg" viewBox="0 0 100 100">
-        <!-- concepto morph de diamante a pica -->
-        <path class="logo-path" d="M50 10 L90 50 L50 90 L10 50 Z"></path>
-      </svg>
-      <div class="logo-text" id="logo-text" data-i18n="nav.logo">CASINO</div>
-    </div>
-
-    <div class="controls">
-      <div class="wallet" id="wallet-container">
-        <span class="wallet-amount" id="credits-amount">15000</span>
-        <span style="color:var(--text-muted);">CRD</span>
-      </div>
-
-      <div class="lang-switcher">
-        <button class="lang-btn" data-lang="en">EN</button>
-        <button class="lang-btn" data-lang="es">ES</button>
-        <button class="lang-btn" data-lang="uk">UK</button>
-      </div>
-    </div>
+    <a href="index.html" class="nav-logo">
+      <span>CASINO</span>
+    </a>
   </nav>
 
-  <main class="hero">
-    <h1 class="hero-title" id="hero-title" data-i18n="hero.title">LA EXPERIENCIA ROYALE</h1>
-    <p class="hero-subtitle" id="hero-subtitle" data-i18n="hero.subtitle">
-      una exhibicion de extravagancia, detalles dorados y animaciones fisicas realistas. luxuria pura.
-    </p>
+  <!-- Contact Form -->
+  <main>
+    <h1>24/7 Support</h1>
+    <p>¿Tienes algún problema con la simulación? Envíanos un mensaje y nuestro equipo te ayudará rápidamente.</p>
 
-    <div class="btn-wrapper" id="main-play-btn">
-      <svg class="btn-svg" viewBox="0 0 200 60" preserveAspectRatio="none">
-        <rect width="100%" height="100%" />
-      </svg>
-      <div class="btn-text-content" id="btn-text" data-i18n="hero.btn.play" data-href="#lobby">ENTRAR</div>
-    </div>
+    <form class="contact-form" id="contactForm">
+      <div class="input-group">
+        <input type="text" id="name" class="input-field" placeholder=" " required>
+        <label for="name" class="input-label">Nombre</label>
+      </div>
+
+      <div class="input-group">
+        <input type="email" id="email" class="input-field" placeholder=" " required>
+        <label for="email" class="input-label">Correo Electrónico</label>
+      </div>
+
+      <div class="input-group">
+        <textarea id="message" class="input-field" placeholder=" " rows="4" required></textarea>
+        <label for="message" class="input-label">Mensaje</label>
+      </div>
+
+      <button type="submit" class="submit-btn">ENVIAR</button>
+    </form>
   </main>
 
-  <!-- cuadricula de tarjetas de juego -->
-  <div class="grid-container" id="lobby">
+  <!-- Footer -->
+  <footer>
+    <a href="index.html">Lobby / Home</a> |
+    <a href="advertense.html">Responsible Gaming</a>
+    <div>© 2026 Project Casino. Simulator Only.</div>
+  </footer>
 
-    <a href="model/roulette.html" class="game-card-wrapper c-roulette">
+  <script>
+    // Animación suave al enviar
+    const form = document.getElementById('contactForm');
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
 
-      <div class="game-card">
-        <svg class="card-svg-border" width="100%" height="100%">
-          <rect width="100%" height="100%" />
-        </svg>
-        <div class="game-icon-container">
-          <svg class="game-icon-svg" viewBox="0 0 100 100">
-            <!-- icono de ruleta -->
-            <circle cx="50" cy="50" r="40" />
-            <circle cx="50" cy="50" r="20" />
-            <line x1="50" y1="10" x2="50" y2="90" />
-            <line x1="10" y1="50" x2="90" y2="50" />
-          </svg>
-        </div>
-        <div class="card-content">
-          <div class="card-title" data-i18n="lobby.roulette.title">RULETA</div>
-          <div class="card-desc" data-i18n="lobby.roulette.desc">simula la rueda con estetica premium.</div>
-        </div>
-      </div>
-    </a>
+      anime({
+        targets: form,
+        scale: [1, 0.97, 1],
+        duration: 500,
+        easing: 'easeInOutQuad'
+      });
 
-    <a href="model/blackjack.html" class="game-card-wrapper c-blackjack">
-      <div class="game-card">
-        <svg class="card-svg-border" width="100%" height="100%">
-          <rect width="100%" height="100%" />
-        </svg>
-        <div class="game-icon-container">
-          <svg class="game-icon-svg" viewBox="0 0 100 100">
-            <!-- icono de pica -->
-            <path d="M50 20 C50 20, 80 10, 80 50 C80 80, 50 90, 50 90 C50 90, 20 80, 20 50 C20 10, 50 20, 50 20 Z" />
-          </svg>
-        </div>
-        <div class="card-content">
-          <div class="card-title" data-i18n="lobby.blackjack.title">BLACKJACK</div>
-          <div class="card-desc" data-i18n="lobby.blackjack.desc">cartas fisicas realistas y mesa lujosa.</div>
-        </div>
-      </div>
-    </a>
-
-    <a href="model/sports.html" class="game-card-wrapper c-sports">
-      <div class="game-card">
-        <svg class="card-svg-border" width="100%" height="100%">
-          <rect width="100%" height="100%" />
-        </svg>
-        <div class="game-icon-container">
-          <svg class="game-icon-svg" viewBox="0 0 100 100">
-            <polygon points="50,15 90,85 10,85" />
-            <circle cx="50" cy="65" r="10" />
-          </svg>
-        </div>
-        <div class="card-content">
-          <div class="card-title" data-i18n="lobby.sports.title">DEPORTES</div>
-          <div class="card-desc" data-i18n="lobby.sports.desc">billetes de apuesta de alta gama.</div>
-        </div>
-      </div>
-    </a>
-
-  </div>
-
-  <div class="footer-links">
-    <a href="contact.html" class="footer-link" data-i18n="footer.contact">CONTACTO</a>
-    <a href="advertense.html" class="footer-link" data-i18n="footer.advertense">JUEGO RESPONSABLE</a>
-  </div>
-
-  <!-- integracion de anime.js -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
-  <!-- script de idiomas -->
-  <script src="languages/languages.js"></script>
-
-  <!-- logica de autenticacion -->
-  <script src="logic/auth.js"></script>
-
-  <!-- logica principal -->
-  <script src="background.js"></script>
-
+      alert("Mensaje enviado con éxito. ¡Gracias!");
+      form.reset();
+    });
+  </script>
 </body>
 
 </html>
