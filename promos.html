@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anuncios Promocionales | Antigravity</title>
+    <style>
+        body {
+            background-color: #050505;
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            flex-direction: column;
+            gap: 50px;
+            margin: 0;
+            padding: 40px;
+        }
+
+        .ad-container {
+            width: 100%;
+            max-width: 800px;
+            height: 250px;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            padding: 40px;
+            box-sizing: border-box;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .ad-container:hover {
+            transform: scale(1.03);
+        }
+
+        /* =========================================
+           Proyecto: Error 404: Humanity
+           Concepto: Glitch, Thriller, Distopía
+           ========================================= */
+        .ad-error {
+            background: linear-gradient(to right, #110000, #0a0000);
+            border: 2px solid #330000;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.1);
+        }
+
+        .ad-error::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=800&q=80') center/cover;
+            opacity: 0.15;
+            filter: grayscale(100%) contrast(150%);
+            mix-blend-mode: color-dodge;
+            transition: opacity 0.3s;
+        }
+
+        .ad-error .content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .ad-error h2 {
+            color: #ff003c;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 2.2rem;
+            margin: 0 0 10px 0;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 0px rgba(100, 0, 0, 0.5);
+        }
+
+        .ad-error p {
+            color: #b3b3b3;
+            font-size: 1.1rem;
+            margin: 0 0 25px 0;
+            max-width: 80%;
+        }
+
+        .ad-error .cta {
+            display: inline-block;
+            padding: 10px 25px;
+            background: #ff003c;
+            color: #000;
+            font-weight: bold;
+            text-decoration: none;
+            font-family: 'Courier New', Courier, monospace;
+            transition: all 0.2s;
+            border: 1px solid #ff003c;
+        }
+
+        /* Glitch y Hover Hover */
+        .ad-error:hover {
+            border-color: #ff003c;
+            box-shadow: 0 0 20px rgba(255, 0, 60, 0.4);
+        }
+
+        .ad-error:hover::before {
+            opacity: 0.3;
+        }
+
+        .ad-error:hover .cta {
+            background: #fff;
+            box-shadow: 0 0 15px #ff003c;
+        }
+
+        .ad-error:hover h2 {
+            animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
+        }
+
+        @keyframes glitch {
+            0% {
+                transform: translate(0)
+            }
+
+            20% {
+                transform: translate(-2px, 2px);
+                text-shadow: -2px 0 #00ffff, 2px 0 #ff003c;
+            }
+
+            40% {
+                transform: translate(-2px, -2px);
+                text-shadow: 2px 0 #00ffff, -2px 0 #ff003c;
+            }
+
+            60% {
+                transform: translate(2px, 2px);
+                text-shadow: -2px 0 #00ffff, 2px 0 #ff003c;
+            }
+
+            80% {
+                transform: translate(2px, -2px);
+                text-shadow: 2px 0 #00ffff, -2px 0 #ff003c;
+            }
+
+            100% {
+                transform: translate(0)
+            }
+        }
+
+        /* =========================================
+           Proyecto: Villa Olímpica Gamer
+           Concepto: Cyberpunk, Neón, Deportes
+           ========================================= */
+        .ad-cyber {
+            background: linear-gradient(135deg, #001122, #000511);
+            border: 2px solid #00f3ff;
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
+            justify-content: flex-end;
+        }
+
+        .ad-cyber::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=800&q=80') center/cover;
+            opacity: 0.15;
+            z-index: 0;
+            transition: opacity 0.4s;
+            mix-blend-mode: screen;
+        }
+
+        .ad-cyber::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(to right, transparent, rgba(0, 243, 255, 0.1));
+            transition: all 0.4s;
+            z-index: 0;
+            opacity: 0;
+        }
+
+        .ad-cyber .content {
+            position: relative;
+            z-index: 1;
+            text-align: right;
+            width: 100%;
+        }
+
+        .ad-cyber h2 {
+            color: #00f3ff;
+            font-family: 'Arial Black', sans-serif;
+            font-size: 2.2rem;
+            margin: 0 0 10px 0;
+            text-transform: uppercase;
+            font-style: italic;
+            text-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
+            letter-spacing: 1px;
+        }
+
+        .ad-cyber p {
+            color: #a4ffb0;
+            font-size: 1.1rem;
+            margin: 0 0 25px auto;
+            font-style: italic;
+            max-width: 80%;
+        }
+
+        .ad-cyber .cta {
+            display: inline-block;
+            padding: 10px 25px;
+            background: transparent;
+            border: 2px solid #00f3ff;
+            color: #00f3ff;
+            font-weight: bold;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s;
+            backdrop-filter: blur(5px);
+        }
+
+        /* Neón y Hover Efecto */
+        .ad-cyber:hover {
+            box-shadow: 0 0 30px rgba(0, 243, 255, 0.6), inset 0 0 20px rgba(0, 255, 170, 0.15);
+            border-color: #00ffaa;
+        }
+
+        .ad-cyber:hover h2 {
+            color: #fff;
+            text-shadow: 0 0 15px #00ffaa, 0 0 30px #00f3ff;
+        }
+
+        .ad-cyber:hover p {
+            color: #fff;
+        }
+
+        .ad-cyber:hover .cta {
+            background: #00f3ff;
+            color: #000;
+            box-shadow: 0 0 20px #00f3ff;
+            border-color: #00f3ff;
+        }
+
+        .ad-cyber:hover::before {
+            opacity: 0.35;
+        }
+
+        .ad-cyber:hover::after {
+            opacity: 1;
+            right: -20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Banners Publicitarios -->
+
+    <div class="ad-container ad-error">
+        <div class="content">
+            <h2>ERROR 404: HUMANITY</h2>
+            <p>¿Eres la cura o el último error del sistema? Salva a la humanidad en 2040.</p>
+            <a href="#" class="cta">[ START SIMULATION ]</a>
+        </div>
+    </div>
+
+    <div class="ad-container ad-cyber">
+        <div class="content">
+            <h2>Villa Olímpica Gamer</h2>
+            <p>Depura tu velocidad. Domina el código. Los JJOO han evolucionado.</p>
+            <a href="#" class="cta">LOG IN TO XTER</a>
+        </div>
+    </div>
+
+</body>
+
+</html>
