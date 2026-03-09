@@ -1,45 +1,57 @@
 const dictionary = {
     en: {
-        "nav.logo": "CASINO",
-        "hero.title": "THE NEON EXPERIENCE",
-        "hero.subtitle": "A showcase of fluid motion, SVG mapping, and exact parameter orchestration. Pure dynamic minimalism.",
-        "hero.btn.play": "INITIALIZE",
+        "nav.logo": "ROYALE",
+        "hero.title": "THE ROYALE EXPERIENCE",
+        "hero.subtitle": "A showcase of extravagance, golden details and realistic physical animations. Pure luxury.",
+        "hero.btn.play": "ENTER",
         "lobby.roulette.title": "ROULETTE",
-        "lobby.roulette.desc": "Simulate the wheel with radial staggered motion.",
+        "lobby.roulette.desc": "Simulate the wheel with premium aesthetics.",
         "lobby.blackjack.title": "BLACKJACK",
-        "lobby.blackjack.desc": "Elastic playing card timelines and 3D transforms.",
+        "lobby.blackjack.desc": "Realistic physical cards and luxurious table.",
         "lobby.sports.title": "SPORTS",
-        "lobby.sports.desc": "Grid orchestrations and slip state updates.",
+        "lobby.sports.desc": "High-end betting slips.",
         "footer.contact": "CONTACT",
-        "footer.advertense": "RESPONSIBLE GAMING"
+        "footer.advertense": "RESPONSIBLE GAMING",
+        "age.title": "RESTRICTED ACCESS",
+        "age.question": "Are you 18 years of age or older?",
+        "age.yes": "YES",
+        "age.no": "NO"
     },
     es: {
-        "nav.logo": "CASINO",
-        "hero.title": "LA EXPERIENCIA NEÓN",
-        "hero.subtitle": "Una exhibición de movimiento fluido, mapeo SVG y orquestación exacta de parámetros. Minimalismo dinámico puro.",
-        "hero.btn.play": "INICIALIZAR",
+        "nav.logo": "ROYALE",
+        "hero.title": "LA EXPERIENCIA ROYALE",
+        "hero.subtitle": "Una exhibicion de extravagancia, detalles dorados y animaciones fisicas realistas. Luxuria pura.",
+        "hero.btn.play": "ENTRAR",
         "lobby.roulette.title": "RULETA",
-        "lobby.roulette.desc": "Simula la rueda con movimiento radial escalonado.",
+        "lobby.roulette.desc": "Simula la rueda con estetica premium.",
         "lobby.blackjack.title": "BLACKJACK",
-        "lobby.blackjack.desc": "Líneas de tiempo elásticas de cartas y transformaciones 3D.",
+        "lobby.blackjack.desc": "Cartas fisicas realistas y mesa lujosa.",
         "lobby.sports.title": "DEPORTES",
-        "lobby.sports.desc": "Orquestaciones de cuadrícula y actualizaciones de estado de apuestas.",
+        "lobby.sports.desc": "Billetes de apuesta de alta gama.",
         "footer.contact": "CONTACTO",
-        "footer.advertense": "JUEGO RESPONSABLE"
+        "footer.advertense": "JUEGO RESPONSABLE",
+        "age.title": "ACCESO RESTRINGIDO",
+        "age.question": "¿Eres mayor de 18 anos?",
+        "age.yes": "SI",
+        "age.no": "NO"
     },
     uk: {
-        "nav.logo": "КАЗИНО",
-        "hero.title": "НЕОНОВИЙ ДОСВІД",
-        "hero.subtitle": "Демонстрація плавного руху, SVG-маппінгу та точної оркестрації параметрів. Чистий динамічний мінімалізм.",
-        "hero.btn.play": "ІНІЦІАЛІЗУВАТИ",
+        "nav.logo": "РОЯЛЬ",
+        "hero.title": "ДОСВІД ROYALE",
+        "hero.subtitle": "Демонстрація екстравагантності, золотих деталей та реалістичних фізичних анімацій. Чиста розкіш.",
+        "hero.btn.play": "УВІЙТИ",
         "lobby.roulette.title": "РУЛЕТКА",
-        "lobby.roulette.desc": "Симулюйте колесо з радіальним каскадним рухом.",
+        "lobby.roulette.desc": "Симулюйте колесо з преміальною естетикою.",
         "lobby.blackjack.title": "БЛЕКДЖЕК",
-        "lobby.blackjack.desc": "Еластичні часові шкали ігрових карт і 3D-трансформації.",
+        "lobby.blackjack.desc": "Реалістичні фізичні карти та розкішний стіл.",
         "lobby.sports.title": "СПОРТ",
-        "lobby.sports.desc": "Оркестрація сіток і оновлення стану ставки.",
+        "lobby.sports.desc": "Ставки високого класу.",
         "footer.contact": "КОНТАКТИ",
-        "footer.advertense": "ВІДПОВІДАЛЬНА ГРА"
+        "footer.advertense": "ВІДПОВІДАЛЬНА ГРА",
+        "age.title": "ОБМЕЖЕНИЙ ДОСТУП",
+        "age.question": "Вам виповнилося 18 років?",
+        "age.yes": "ТАК",
+        "age.no": "НІ"
     }
 };
 
@@ -52,7 +64,7 @@ class LanguageManager {
     init() {
         this.bindButtons();
         this.updateActiveBtn();
-        // Translate without animation on initial load
+        // traducir sin animacion en la carga inicial
         this.translateDOM();
     }
 
@@ -86,9 +98,8 @@ class LanguageManager {
 
         const elementsToTranslate = document.querySelectorAll('[data-i18n]');
 
-        // Anime.js powered translation swap
+        // traduccion con transicion anime.js
         if (window.anime) {
-            // Stagger out letters or elements
             anime({
                 targets: elementsToTranslate,
                 opacity: 0,
@@ -97,11 +108,7 @@ class LanguageManager {
                 easing: 'easeInQuad',
                 complete: () => {
                     this.translateDOM();
-
-                    // Check if we need to re-split letters for SVG borders/buttons
                     this.recomputeSpans();
-
-                    // Stagger back in
                     anime({
                         targets: elementsToTranslate,
                         opacity: 1,
@@ -122,9 +129,8 @@ class LanguageManager {
         elements.forEach(el => {
             const key = el.getAttribute('data-i18n');
             if (dictionary[this.currentLang][key]) {
-                // Determine if element contains split spans
                 if (el.querySelector('.letter') || el.querySelector('.btn-letter')) {
-                    el.dataset.rawText = dictionary[this.currentLang][key]; // Store raw text for split
+                    el.dataset.rawText = dictionary[this.currentLang][key]; // guardar texto crudo para dividir
                 } else {
                     el.textContent = dictionary[this.currentLang][key];
                 }
@@ -135,7 +141,7 @@ class LanguageManager {
     }
 
     recomputeSpans() {
-        // Re-split text for elements that use Anime.js letter targeting
+        // volver a dividir texto para elementos que usan segmentacion de letras anime.js
         const resplit = (selector, spanClass) => {
             const el = document.querySelector(selector);
             if (el && el.dataset.rawText) {
@@ -153,7 +159,7 @@ class LanguageManager {
     }
 }
 
-// Instantiate globally to allow access if needed
+// instanciar globalmente para permitir acceso
 document.addEventListener('DOMContentLoaded', () => {
     window.languageManager = new LanguageManager();
 });

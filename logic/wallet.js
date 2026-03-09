@@ -1,7 +1,7 @@
 /**
- * WALLET.JS - LOGIC MODULE
- * Manages the "Fictional Credits" (CRD) balance.
- * Utilizes Promises and setTimeouts to simulate realistic API latency.
+ * wallet.js - modulo de logica
+ * maneja el saldo de creditos ficticios (crd).
+ * utiliza promesas y settimeout para simular latencia de red realista.
  */
 
 class FictionalWallet {
@@ -10,16 +10,16 @@ class FictionalWallet {
         this.balance = stored ? parseFloat(stored) : initialBalance;
         this.isUpdating = false;
 
-        // Immediately render
+        // renderizado inicial
         this.initialRender();
     }
 
-    // Fake Network Request Delay Generator
+    // generador de retraso de red simulado
     _simulateNetworkDelay(ms = 800) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
-    // Update DOM explicitly
+    // actualizar el dom explicitamente
     async initialRender() {
         this._updateDOM(this.balance);
     }
@@ -30,14 +30,14 @@ class FictionalWallet {
 
         if (!display) return;
 
-        // Animate numbers spinning
+        // animar los numeros girando
         if (window.anime) {
-            const obj = { val: parseFloat(display.innerText) || 0 };
+            const obj = { val: parseFloat(display.innerText.replace(/,/g, '')) || 0 };
 
             anime({
                 targets: obj,
                 val: newVal,
-                round: 1, // Round integer
+                round: 1, // redondear entero
                 duration: 1000,
                 easing: 'easeOutExpo',
                 update: function () {
@@ -45,12 +45,12 @@ class FictionalWallet {
                 }
             });
 
-            // Flash wallet border
+            // destello en el borde de billetera (estilo dorado lujoso)
             if (walletBox) {
                 anime({
                     targets: walletBox,
-                    borderColor: ['rgba(255, 215, 0, 0.8)', 'rgba(255, 215, 0, 0.2)'],
-                    boxShadow: ['0 0 20px rgba(255, 215, 0, 0.4)', '0 0 15px rgba(255, 215, 0, 0.05)'],
+                    borderColor: ['rgba(212, 175, 55, 1)', 'rgba(212, 175, 55, 0.4)'],
+                    boxShadow: ['0 0 20px rgba(212, 175, 55, 0.6)', '0 0 15px rgba(212, 175, 55, 0.1)'],
                     duration: 800,
                     easing: 'easeOutSine'
                 });
@@ -60,20 +60,20 @@ class FictionalWallet {
         }
     }
 
-    // Public Methods
+    // metodos publicos
     async getBalance() {
         await this._simulateNetworkDelay(300);
         return this.balance;
     }
 
     /**
-     * Deduct credits. Returns true if successful, false if insufficient bounds.
+     * deducir creditos. retorna true si es exitoso, false si no hay fondos.
      */
     async wager(amount) {
         if (this.isUpdating) return false;
         this.isUpdating = true;
 
-        await this._simulateNetworkDelay(600); // Fake API latency
+        await this._simulateNetworkDelay(600); // latencia de api falsa
 
         if (this.balance >= amount) {
             this.balance -= amount;
@@ -81,18 +81,13 @@ class FictionalWallet {
             this.isUpdating = false;
             return true;
         } else {
-
-            
-            console.warn("Insufficient Crits");
+            console.warn("fondos insuficientes");
             this._pulseError();
             this.isUpdating = false;
             return false;
         }
     }
 
-    /**
-     * Add credits (Win or Top-up)
-     */
     async win(amount) {
         if (this.isUpdating) return false;
         this.isUpdating = true;
@@ -103,7 +98,7 @@ class FictionalWallet {
         this._saveAndRender();
         this.isUpdating = false;
 
-        // Super flash for wins
+        // super destello para ganancias
         this._pulseWin();
         return true;
     }
@@ -126,8 +121,9 @@ class FictionalWallet {
                 { value: 5, duration: 50 },
                 { value: 0, duration: 50 }
             ],
-            borderColor: ['#FF073A', 'rgba(255, 215, 0, 0.2)'],
+            borderColor: ['#8B0000', 'rgba(212, 175, 55, 0.4)'],
             easing: 'easeInOutSine'
+            // animacion mejorada visualmente para el error
         });
     }
 
@@ -137,15 +133,15 @@ class FictionalWallet {
 
         anime({
             targets: walletBox,
-            scale: [1, 1.1, 1],
-            borderColor: ['#39FF14', 'rgba(255, 215, 0, 0.2)'],
-            duration: 600,
-            easing: 'easeOutBounce'
+            scale: [1, 1.05, 1],
+            borderColor: ['#D4AF37', 'rgba(212, 175, 55, 0.4)'],
+            boxShadow: ['0 0 30px rgba(212, 175, 55, 0.8)', '0 0 15px rgba(212, 175, 55, 0.1)'],
+            duration: 800,
+            easing: 'easeOutElastic(1, .8)'
         });
     }
 }
 
-// Instantiate and expose globally
 document.addEventListener('DOMContentLoaded', () => {
-    window.casinoWallet = new FictionalWallet(15000); // 15k starting credits
+    window.casinoWallet = new FictionalWallet(15000); // 15k creditos iniciales
 });

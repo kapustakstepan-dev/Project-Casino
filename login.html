@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration | Project Casino</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <style>
+        .login-wrapper {
+            background: linear-gradient(135deg, #110505 0%, #050505 100%);
+            border: 1px solid var(--neon-gold);
+            border-radius: var(--border-radius-lg);
+            padding: 3rem;
+            max-width: 450px;
+            width: 100%;
+            margin: 0 auto;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(197, 160, 89, 0.1);
+            position: relative;
+            z-index: 2;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 1rem 0.5rem;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(197, 160, 89, 0.3);
+            border-radius: 4px;
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            outline: none;
+        }
+
+        .input-field:focus {
+            border-color: var(--neon-gold);
+            box-shadow: 0 0 10px rgba(197, 160, 89, 0.2);
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        .input-label {
+            position: absolute;
+            left: 0.8rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            pointer-events: none;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+
+        .input-field:focus~.input-label,
+        .input-field:not(:placeholder-shown)~.input-label {
+            top: -10px;
+            left: 0.5rem;
+            font-size: 0.8rem;
+            color: var(--neon-gold);
+            background: #050505;
+            padding: 0 0.4rem;
+        }
+    </style>
+</head>
+
+<body style="display:flex; flex-direction:column; min-height:100vh;">
+
+    <div id="bg-canvas" class="bg-animation-container"></div>
+
+    <nav class="navbar" id="top-nav">
+        <a href="index.html" class="nav-logo">
+            <svg class="logo-svg" viewBox="0 0 100 100" style="width:40px;height:40px;">
+                <path d="M50 10 L90 50 L50 90 L10 50 Z" />
+            </svg>
+            <span style="font-family: var(--font-mono); font-size: 1.5rem; letter-spacing: 2px;">CASINO ROYALE</span>
+        </a>
+
+        <div class="nav-controls">
+            <div class="lang-switcher">
+                <button class="lang-btn" data-lang="en">EN</button>
+                <button class="lang-btn" data-lang="es">ES</button>
+                <button class="lang-btn" data-lang="uk">UK</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container"
+        style="flex: 1; display:flex; flex-direction:column; justify-content:center; align-items: center; padding-top:var(--spacing-xl);">
+
+        <div class="login-wrapper">
+            <h1 class="neon-title text-center" style="text-align: center; font-size: 2rem; margin-bottom: 2rem;"
+                data-i18n="login.title">MEMBERS ONLY</h1>
+
+            <form id="register-form" onsubmit="handleRegistration(event)">
+                <div class="input-group">
+                    <input type="text" id="reg-name" class="input-field" placeholder=" " required />
+                    <label for="reg-name" class="input-label" data-i18n="login.name">Full Name</label>
+                </div>
+
+                <div class="input-group">
+                    <input type="email" id="reg-email" class="input-field" placeholder=" " required />
+                    <label for="reg-email" class="input-label" data-i18n="login.email">Email Address</label>
+                </div>
+
+                <div class="input-group">
+                    <input type="password" id="reg-password" class="input-field" placeholder=" " required />
+                    <label for="reg-password" class="input-label" data-i18n="login.password">Password</label>
+                </div>
+
+                <button type="submit" class="btn-luxury" style="width: 100%; margin-top: 1rem; padding: 15px;"
+                    id="login-btn">
+                    <span class="btn-bg"></span>
+                    <span data-i18n="login.submit" style="letter-spacing: 2px;">CREATE ACCOUNT</span>
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <footer class="main-footer"
+        style="padding: 2rem; text-align: center; border-top: 1px solid rgba(197, 160, 89, 0.2);">
+        <div class="copyright" data-i18n="footer.copyright" style="color: var(--text-muted); font-size: 0.9rem;">© 2026
+            Project Casino. Simulator Only.</div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="logic/auth.js"></script>
+    <script>
+        // Use auth to ensure preceding flow is valid
+        window.CasinoAuth.checkFlow();
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Background animation
+            const bgCanvas = document.getElementById('bg-canvas');
+            if (bgCanvas) {
+                for (let i = 0; i < 15; i++) {
+                    const p = document.createElement('div');
+                    p.className = 'luxury-particle';
+                    p.style.width = '3px'; p.style.height = '3px';
+                    p.style.left = Math.random() * 100 + 'vw';
+                    p.style.top = Math.random() * 100 + 'vh';
+                    bgCanvas.appendChild(p);
+                }
+                anime({
+                    targets: '.luxury-particle',
+                    translateY: -50,
+                    opacity: [0, 0.4, 0],
+                    duration: function () { return anime.random(4000, 8000); },
+                    loop: true,
+                    easing: 'linear'
+                });
+            }
+
+            // Form entrance animation
+            anime({
+                targets: '.login-wrapper',
+                translateY: [40, 0],
+                opacity: [0, 1],
+                duration: 1000,
+                easing: 'easeOutExpo'
+            });
+        });
+
+        function handleRegistration(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('reg-name').value;
+            const email = document.getElementById('reg-email').value;
+
+            // Animate button and delegate to auth
+            const btn = document.getElementById('login-btn');
+            anime({
+                targets: btn,
+                scale: [1, 0.95, 1],
+                duration: 400,
+                easing: 'easeOutQuad',
+                complete: () => {
+                    window.CasinoAuth.registerUser(name, email);
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms of Service | Project Casino</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <style>
+        .legal-wrapper {
+            background: linear-gradient(135deg, #110505 0%, #050505 100%);
+            border: 1px solid var(--neon-gold);
+            border-radius: var(--border-radius-lg);
+            padding: 3rem;
+            max-width: 650px;
+            width: 100%;
+            margin: 2rem auto;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 1), inset 0 0 20px rgba(197, 160, 89, 0.15);
+            position: relative;
+            z-index: 2;
+        }
+
+        .legal-content {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(197, 160, 89, 0.2);
+            padding: 1.5rem;
+            border-radius: 4px;
+            height: 300px;
+            overflow-y: auto;
+            margin-bottom: 2rem;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Custom Scrollbar for legal content */
+        .legal-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .legal-content::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .legal-content::-webkit-scrollbar-thumb {
+            background: var(--neon-gold);
+            border-radius: 4px;
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 2rem;
+            cursor: pointer;
+        }
+
+        .custom-checkbox {
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border: 2px solid var(--neon-gold);
+            border-radius: 4px;
+            background: rgba(0, 0, 0, 0.5);
+            position: relative;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: all 0.2s;
+        }
+
+        .custom-checkbox:checked {
+            background: var(--neon-green);
+            border-color: var(--neon-green);
+        }
+
+        .custom-checkbox:checked::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #fff;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .checkbox-label {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            user-select: none;
+            line-height: 1.4;
+        }
+
+        .checkbox-label strong {
+            color: var(--neon-gold);
+        }
+    </style>
+</head>
+
+<body style="display:flex; flex-direction:column; min-height:100vh;">
+
+    <div id="bg-canvas" class="bg-animation-container"></div>
+
+    <main class="container"
+        style="flex: 1; display:flex; flex-direction:column; justify-content:center; align-items: center;">
+
+        <div class="legal-wrapper">
+            <h1 class="neon-title" style="font-size: 2.2rem; margin-bottom: 1.5rem; text-align: center;"
+                data-i18n="legal.title">TERMS & CONDITIONS</h1>
+
+            <div class="legal-content">
+                <h3 style="color: var(--neon-gold); margin-bottom: 0.5rem;" data-i18n="legal.h1">1. Age Confirmation
+                </h3>
+                <p style="margin-bottom: 1rem;" data-i18n="legal.p1">By accepting these terms, you legally reaffirm that
+                    you are 18 years of age or older. Falsifying your age is a violation of international gambling laws.
+                </p>
+
+                <h3 style="color: var(--neon-gold); margin-bottom: 0.5rem;" data-i18n="legal.h2">2. Simulator Only</h3>
+                <p style="margin-bottom: 1rem;" data-i18n="legal.p2">Project Casino is a software simulation. No real
+                    money is wagered, won, or lost. The credits (CRD) hold zero monetary value.</p>
+
+                <h3 style="color: var(--neon-gold); margin-bottom: 0.5rem;" data-i18n="legal.h3">3. Responsible Gaming
+                </h3>
+                <p style="margin-bottom: 0;" data-i18n="legal.p3">Even in a simulation, gambling mechanics can be
+                    habit-forming. We urge all users to play responsibly and set limits on their virtual playtime.</p>
+            </div>
+
+            <label class="checkbox-container">
+                <input type="checkbox" id="accept-checkbox" class="custom-checkbox" onchange="toggleButton()">
+                <span class="checkbox-label" data-i18n="legal.checkbox">
+                    I confirm that I am <strong>over 18 years old</strong>, and I have read and accept the terms of use
+                    and responsible gaming policies.
+                </span>
+            </label>
+
+            <button class="btn-luxury" style="width: 100%; padding: 15px; opacity: 0.5; pointer-events: none;"
+                id="accept-btn" onclick="acceptLegal()">
+                <span class="btn-bg"></span>
+                <span data-i18n="legal.submit" style="letter-spacing: 2px;">ENTER LOBBY</span>
+            </button>
+        </div>
+    </main>
+
+    <!-- Logic -->
+    <script src="logic/auth.js"></script>
+    <script>
+        // Redirect if age is not verified first
+        if (localStorage.getItem(window.CasinoAuth.KEYS.AGE_VERIFIED) !== 'true') {
+            window.location.href = 'age.html';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Background animation
+            const bgCanvas = document.getElementById('bg-canvas');
+            if (bgCanvas) {
+                for (let i = 0; i < 15; i++) {
+                    const p = document.createElement('div');
+                    p.className = 'luxury-particle';
+                    p.style.width = '3px'; p.style.height = '3px';
+                    p.style.left = Math.random() * 100 + 'vw';
+                    p.style.top = Math.random() * 100 + 'vh';
+                    bgCanvas.appendChild(p);
+                }
+                anime({
+                    targets: '.luxury-particle',
+                    translateY: -50,
+                    opacity: [0, 0.4, 0],
+                    duration: function () { return anime.random(4000, 8000); },
+                    loop: true,
+                    easing: 'linear'
+                });
+            }
+
+            // Entrance animation
+            anime({
+                targets: '.legal-wrapper',
+                translateY: [40, 0],
+                opacity: [0, 1],
+                duration: 1000,
+                easing: 'easeOutExpo'
+            });
+        });
+
+        function toggleButton() {
+            const isChecked = document.getElementById('accept-checkbox').checked;
+            const btn = document.getElementById('accept-btn');
+
+            if (isChecked) {
+                btn.style.opacity = '1';
+                btn.style.pointerEvents = 'auto';
+            } else {
+                btn.style.opacity = '0.5';
+                btn.style.pointerEvents = 'none';
+            }
+        }
+
+        function acceptLegal() {
+            const btn = document.getElementById('accept-btn');
+            anime({
+                targets: btn,
+                scale: [1, 0.95, 1],
+                duration: 400,
+                complete: () => {
+                    window.CasinoAuth.acceptLegal();
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

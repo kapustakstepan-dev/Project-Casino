@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Underage Notice | Project Casino</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <style>
+        .notice-wrapper {
+            background: linear-gradient(135deg, #110505 0%, #050505 100%);
+            border: 1px solid var(--neon-red);
+            border-radius: var(--border-radius-lg);
+            padding: 4rem 3rem;
+            max-width: 600px;
+            width: 100%;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .notice-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 2rem auto;
+            border: 2px solid var(--neon-red);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 3rem;
+            color: var(--neon-red);
+            box-shadow: 0 0 20px rgba(88, 0, 0, 0.5);
+        }
+
+        .educational-text {
+            color: var(--text-main);
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            text-align: left;
+            background: rgba(88, 0, 0, 0.1);
+            padding: 1.5rem;
+            border-left: 4px solid var(--neon-red);
+            border-radius: 0 4px 4px 0;
+        }
+    </style>
+</head>
+
+<body style="display:flex; flex-direction:column; min-height:100vh;">
+
+    <div id="bg-canvas" class="bg-animation-container"></div>
+
+    <main class="container"
+        style="flex: 1; display:flex; flex-direction:column; justify-content:center; align-items: center;">
+
+        <div class="notice-wrapper">
+            <div class="notice-icon">18+</div>
+            <h1 class="neon-title"
+                style="font-size: 2.5rem; margin-bottom: 1rem; color: var(--text-main); text-shadow: none;"
+                data-i18n="underage.title">ACCESS DENIED</h1>
+
+            <div class="educational-text">
+                <p style="margin-bottom: 1rem;" data-i18n="underage.p1"><strong>You are under the legal age.</strong>
+                    Project Casino is strictly for individuals who are 18 years of age or older.</p>
+                <p data-i18n="underage.p2">Minors are prohibited from participating in any gambling activities. We
+                    strongly support responsible gaming and the protection of minors. If you need information or support
+                    regarding underage gambling, please consult educational resources in your region.</p>
+            </div>
+
+            <button class="btn-luxury"
+                style="padding: 12px 30px; border-color: var(--neon-red); color: var(--neon-red);"
+                onclick="location.href='https://www.begambleaware.org/'" data-i18n="underage.btn">
+                LEARN MORE
+            </button>
+        </div>
+    </main>
+
+    <footer class="main-footer"
+        style="padding: 2rem; text-align: center; border-top: 1px solid rgba(197, 160, 89, 0.2);">
+        <div class="copyright" data-i18n="footer.copyright" style="color: var(--text-muted); font-size: 0.9rem;">© 2026
+            Project Casino. Simulator Only.</div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Background animation
+            const bgCanvas = document.getElementById('bg-canvas');
+            if (bgCanvas) {
+                // Simplified, slow moving subtle dots
+                for (let i = 0; i < 10; i++) {
+                    const p = document.createElement('div');
+                    p.className = 'luxury-particle';
+                    p.style.width = '2px'; p.style.height = '2px';
+                    p.style.backgroundColor = 'var(--neon-red)';
+                    p.style.boxShadow = '0 0 5px var(--neon-red)';
+                    p.style.left = Math.random() * 100 + 'vw';
+                    p.style.top = Math.random() * 100 + 'vh';
+                    bgCanvas.appendChild(p);
+                }
+            }
+
+            // Error entrance
+            anime({
+                targets: '.notice-wrapper',
+                translateX: [-20, 20, -10, 10, 0],
+                opacity: [0, 1],
+                duration: 600,
+                easing: 'easeInOutSine'
+            });
+        });
+    </script>
+</body>
+
+</html>

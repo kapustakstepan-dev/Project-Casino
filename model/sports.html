@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Virtual Sports | Project Casino</title>
+    <title>deportes virtuales | casino</title>
     <link rel="stylesheet" href="../style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     <style>
@@ -21,7 +21,7 @@
             }
         }
 
-        /* Match List Column */
+        /* columna de lista de partidos */
         .match-list {
             display: flex;
             flex-direction: column;
@@ -29,26 +29,30 @@
         }
 
         .match-card {
-            background: var(--bg-panel);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: var(--border-radius);
-            padding: var(--spacing-md);
+            background: linear-gradient(135deg, #1b0a0a 0%, #0a0404 100%);
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-lg);
             transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.8);
         }
 
         .match-card:hover {
             border-color: var(--neon-gold);
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.1);
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.2);
+            transform: translateY(-2px);
         }
 
         .match-header {
             display: flex;
             justify-content: space-between;
             color: var(--text-muted);
-            font-size: 0.8rem;
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
             text-transform: uppercase;
+            font-weight: 700;
             margin-bottom: var(--spacing-md);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
             padding-bottom: 8px;
         }
 
@@ -56,108 +60,128 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-family: 'Outfit';
-            font-size: 1.2rem;
+            font-family: var(--font-mono);
+            font-size: 1.5rem;
             font-weight: 700;
-            margin-bottom: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            color: var(--text-main);
         }
 
         .vs {
             color: var(--neon-red);
-            font-size: 0.9rem;
+            font-size: 1.1rem;
+            font-family: var(--font-sans);
         }
 
         .odds-row {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
-            gap: 10px;
+            gap: 15px;
         }
 
         .odd-btn {
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(212, 175, 55, 0.2);
             color: #fff;
-            padding: 10px;
+            padding: 12px;
             border-radius: 4px;
             cursor: pointer;
             display: flex;
             flex-direction: column;
             align-items: center;
             transition: all 0.2s;
+            font-family: var(--font-sans);
         }
 
         .odd-btn:hover,
         .odd-btn.selected {
-            background: var(--neon-blue);
+            background: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%);
             color: #000;
-            border-color: var(--neon-blue);
+            border-color: #D4AF37;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
         }
 
         .odd-val {
             font-weight: bold;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
+            margin-top: 5px;
         }
 
         .odd-lbl {
-            font-size: 0.7rem;
-            opacity: 0.8;
+            font-size: 0.8rem;
+            opacity: 0.9;
         }
 
-        /* Bet Slip Column */
+        /* columna billete de apuesta de lujo */
         .bet-slip {
-            background: #0f1118;
-            border-radius: var(--border-radius);
-            border-top: 4px solid var(--neon-gold);
+            background: #ffffff;
+            color: #111;
+            border-radius: 2px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.9);
             padding: var(--spacing-lg);
             display: flex;
             flex-direction: column;
             height: fit-content;
             position: sticky;
             top: 100px;
+            /* estilo de papel textura */
+            background-image: linear-gradient(rgba(200, 200, 200, 0.2) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(200, 200, 200, 0.2) 1px, transparent 1px);
+            background-size: 15px 15px;
+            border: 1px solid #ddd;
+            border-top: 8px solid var(--neon-red);
         }
 
         .slip-title {
-            font-family: 'Outfit';
-            font-size: 1.5rem;
+            font-family: var(--font-mono);
+            font-size: 1.6rem;
             margin-bottom: var(--spacing-md);
             text-align: center;
+            border-bottom: 2px dotted #ccc;
+            padding-bottom: 10px;
+            color: #0b0505;
         }
 
         .slip-empty {
-            color: var(--text-muted);
+            color: #777;
             text-align: center;
             padding: var(--spacing-lg) 0;
             font-style: italic;
         }
 
         .slip-item {
-            background: rgba(255, 255, 255, 0.02);
-            padding: 10px;
-            border-radius: 4px;
-            margin-bottom: 10px;
-            border-left: 3px solid var(--neon-blue);
+            background: rgba(0, 0, 0, 0.05);
+            padding: 12px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--neon-gold);
         }
 
         .slip-input {
             width: 100%;
-            background: #000;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--neon-gold);
+            background: #fff;
+            border: 2px solid #ccc;
+            color: #000;
             padding: 12px;
-            border-radius: 4px;
             margin: var(--spacing-md) 0;
-            font-family: 'Outfit';
+            font-family: var(--font-sans);
+            font-weight: bold;
             font-size: 1.2rem;
             text-align: right;
+            outline: none;
+        }
+
+        .slip-input:focus {
+            border-color: var(--neon-gold);
         }
 
         .slip-total {
             display: flex;
             justify-content: space-between;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 2px solid #333;
             padding-top: var(--spacing-md);
             margin-top: auto;
             font-weight: bold;
+            font-size: 1.2rem;
         }
     </style>
 </head>
@@ -167,8 +191,10 @@
 
     <nav class="navbar" id="top-nav">
         <a href="../index.html" class="nav-logo">
-            <div class="logo-accent"></div>
-            CASINO
+            <svg class="logo-svg" viewBox="0 0 100 100" style="width:30px;height:30px;">
+                <path d="M50 10 L90 50 L50 90 L10 50 Z" />
+            </svg>
+            <span style="font-family: var(--font-mono); font-size: 1.5rem; letter-spacing: 2px;">ROYALE</span>
         </a>
         <div class="nav-controls">
             <div class="wallet-box" id="wallet-display">
@@ -188,52 +214,52 @@
     <main class="container">
         <div class="sports-layout">
 
-            <!-- Match List -->
+            <!-- lista de partidos -->
             <div class="match-list">
-                <h2 class="neon-title" style="font-size: 2rem;">Live Cyber Matches</h2>
+                <h2 class="neon-title" style="font-size: 2rem; text-shadow:none;">apuestas de lujo</h2>
 
-                <!-- Match 1 -->
+                <!-- partido 1 -->
                 <div class="match-card">
-                    <div class="match-header"><span>Cyber Football</span> <span>LIVE 78'</span></div>
+                    <div class="match-header"><span>futbol royale</span> <span>EN VIVO 78'</span></div>
                     <div class="match-teams">
-                        <span>Neon Strikers</span>
+                        <span>golden strikers</span>
                         <span class="vs">VS</span>
-                        <span>Quantum FC</span>
+                        <span>monaco fc</span>
                     </div>
                     <div class="odds-row">
-                        <button class="odd-btn" onclick="addToSlip('Neon Strikers', 2.10, this)">
+                        <button class="odd-btn" onclick="addToSlip('golden strikers', 2.10, this)">
                             <span class="odd-lbl">1</span>
                             <span class="odd-val">2.10</span>
                         </button>
-                        <button class="odd-btn" onclick="addToSlip('Draw', 3.50, this)">
+                        <button class="odd-btn" onclick="addToSlip('empate', 3.50, this)">
                             <span class="odd-lbl">X</span>
                             <span class="odd-val">3.50</span>
                         </button>
-                        <button class="odd-btn" onclick="addToSlip('Quantum FC', 1.85, this)">
+                        <button class="odd-btn" onclick="addToSlip('monaco fc', 1.85, this)">
                             <span class="odd-lbl">2</span>
                             <span class="odd-val">1.85</span>
                         </button>
                     </div>
                 </div>
 
-                <!-- Match 2 -->
+                <!-- partido 2 -->
                 <div class="match-card">
-                    <div class="match-header"><span>Hyper Racing</span> <span>Starts in 5m</span></div>
+                    <div class="match-header"><span>regata premium</span> <span>empieza en 5m</span></div>
                     <div class="match-teams">
-                        <span>Redline Auto</span>
+                        <span>velocity yates</span>
                         <span class="vs">VS</span>
-                        <span>Vortex Motors</span>
+                        <span>ocean elite</span>
                     </div>
                     <div class="odds-row">
-                        <button class="odd-btn" onclick="addToSlip('Redline Auto', 1.50, this)">
+                        <button class="odd-btn" onclick="addToSlip('velocity yates', 1.50, this)">
                             <span class="odd-lbl">1</span>
                             <span class="odd-val">1.50</span>
                         </button>
-                        <button class="odd-btn" onclick="addToSlip('Draw', 5.00, this)">
+                        <button class="odd-btn" onclick="addToSlip('empate', 5.00, this)">
                             <span class="odd-lbl">X</span>
                             <span class="odd-val">5.00</span>
                         </button>
-                        <button class="odd-btn" onclick="addToSlip('Vortex Motors', 2.90, this)">
+                        <button class="odd-btn" onclick="addToSlip('ocean elite', 2.90, this)">
                             <span class="odd-lbl">2</span>
                             <span class="odd-val">2.90</span>
                         </button>
@@ -241,23 +267,24 @@
                 </div>
             </div>
 
-            <!-- Bet Slip -->
+            <!-- billete de apuesta en papel blanco texturizado -->
             <div class="bet-slip" id="bet-slip">
-                <div class="slip-title">Bet Slip</div>
+                <div class="slip-title">recibo de apuesta</div>
 
                 <div id="slip-content">
-                    <div class="slip-empty">Click odds to add selections</div>
+                    <div class="slip-empty">elige cuotas para anadir</div>
                 </div>
 
                 <div style="display:none;" id="slip-active">
                     <input type="number" id="wager-input" class="slip-input" value="100" min="10">
                     <div class="slip-total">
-                        <span>Pot. Return:</span>
+                        <span>ganancia pot:</span>
                         <span id="pot-return" style="color:var(--neon-green);">210 CRD</span>
                     </div>
-                    <button class="btn-neon" style="width:100%; margin-top:var(--spacing-md);" id="place-bet-btn">
+                    <!-- se usa el boton de lujo oscuro aqui -->
+                    <button class="btn-luxury" style="width:100%; margin-top:var(--spacing-md);" id="place-bet-btn">
                         <span class="btn-bg"></span>
-                        <span style="color:#fff;">PLACE BET</span>
+                        <span style="color:#000;">COLOCAR APUESTA</span>
                     </button>
                 </div>
             </div>
@@ -270,15 +297,15 @@
         let currentSelection = null;
 
         function addToSlip(team, odds, btnEl) {
-            // Reset visual state
+            // resetear estado visual
             document.querySelectorAll('.odd-btn').forEach(b => b.classList.remove('selected'));
             btnEl.classList.add('selected');
 
-            // Update slip UI
+            // actualizar recibo en dom
             document.getElementById('slip-content').innerHTML = `
           <div class="slip-item">
              <div style="font-weight:bold; margin-bottom:5px;">${team}</div>
-             <div style="color:var(--neon-blue);">Odds: ${odds}</div>
+             <div style="color:var(--neon-gold); font-weight:700;">cuotas: ${odds}</div>
           </div>
        `;
 
@@ -287,9 +314,9 @@
 
             anime({
                 targets: '#bet-slip',
-                borderColor: ['#FFD700', '#00F0FF', '#FFD700'],
-                duration: 800,
-                easing: 'easeInOutSine'
+                translateY: [-10, 0], // pequena animacion para indicar actulizacion en el billete fisico
+                duration: 600,
+                easing: 'easeOutElastic(1, .8)'
             });
 
             updateReturn();
@@ -310,24 +337,25 @@
 
             const success = await window.casinoWallet.wager(wager);
             if (success) {
-                // Simulate game wait then win
+                // estado intermedio simulado
                 const btn = document.getElementById('place-bet-btn');
-                btn.innerHTML = 'PROCESSING...';
+                btn.innerHTML = 'PROCESANDO...';
                 btn.disabled = true;
 
                 setTimeout(async () => {
-                    // Fake win 
+                    // victoria falsa 
                     await window.casinoWallet.win(wager * currentSelection.odds);
-                    btn.innerHTML = 'BET WON!';
-                    btn.style.borderColor = '#39FF14';
+                    btn.innerHTML = 'GANADO';
+                    btn.style.color = '#fff';
+                    btn.style.background = '#013220'; // color verde exito 
 
                     setTimeout(() => {
-                        // Reset
-                        btn.innerHTML = '<span class="btn-bg"></span><span style="color:#fff;">PLACE BET</span>';
+                        // resetear billete
+                        btn.innerHTML = '<span class="btn-bg"></span><span style="color:#000;">COLOCAR APUESTA</span>';
+                        btn.style.background = '';
                         btn.disabled = false;
-                        btn.style.borderColor = '';
                         document.querySelectorAll('.odd-btn').forEach(b => b.classList.remove('selected'));
-                        document.getElementById('slip-content').innerHTML = '<div class="slip-empty">Click odds to add selections</div>';
+                        document.getElementById('slip-content').innerHTML = '<div class="slip-empty">elige cuotas para anadir</div>';
                         document.getElementById('slip-active').style.display = 'none';
                     }, 2000);
                 }, 3000);
@@ -337,11 +365,21 @@
         document.addEventListener('DOMContentLoaded', () => {
             anime({
                 targets: '.match-card',
-                translateX: [-50, 0],
+                translateY: [20, 0],
                 opacity: [0, 1],
                 delay: anime.stagger(150),
                 duration: 800,
                 easing: 'easeOutQuad'
+            });
+
+            // simular que el billete cae desde arriba
+            anime({
+                targets: '.bet-slip',
+                translateY: [-50, 0],
+                opacity: [0, 1],
+                delay: 600,
+                duration: 1200,
+                easing: 'easeOutCubic'
             });
         });
     </script>
