@@ -4,21 +4,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Project Casino | The Anime.js Homage</title>
+  <title>Project Casino | Casino Royale</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-  <!-- Background SVG Animation Layer -->
+  <!-- capa de animacion de fondo -->
   <div class="bg-animation-container" id="bg-canvas">
-    <!-- SVG shapes generated via JS -->
+    <!-- formas svg generadas por js -->
   </div>
 
   <nav class="navbar">
     <div class="logo-container">
       <svg class="logo-svg" viewBox="0 0 100 100">
-        <!-- Diamond -> Chip -> Spade morph concept -->
+        <!-- concepto morph de diamante a pica -->
         <path class="logo-path" d="M50 10 L90 50 L50 90 L10 50 Z"></path>
       </svg>
       <div class="logo-text" id="logo-text" data-i18n="nav.logo">CASINO</div>
@@ -39,20 +39,20 @@
   </nav>
 
   <main class="hero">
-    <h1 class="hero-title" id="hero-title" data-i18n="hero.title">THE NEON EXPERIENCE</h1>
+    <h1 class="hero-title" id="hero-title" data-i18n="hero.title">LA EXPERIENCIA ROYALE</h1>
     <p class="hero-subtitle" id="hero-subtitle" data-i18n="hero.subtitle">
-      A showcase of fluid motion, SVG mapping, and exact parameter orchestration. Pure dynamic minimalism.
+      una exhibicion de extravagancia, detalles dorados y animaciones fisicas realistas. luxuria pura.
     </p>
 
     <div class="btn-wrapper" id="main-play-btn">
       <svg class="btn-svg" viewBox="0 0 200 60" preserveAspectRatio="none">
         <rect width="100%" height="100%" />
       </svg>
-      <div class="btn-text-content" id="btn-text" data-i18n="hero.btn.play" data-href="#lobby">INITIALIZE</div>
+      <div class="btn-text-content" id="btn-text" data-i18n="hero.btn.play" data-href="#lobby">ENTRAR</div>
     </div>
   </main>
 
-  <!-- Game Cards Grid -->
+  <!-- cuadricula de tarjetas de juego -->
   <div class="grid-container" id="lobby">
 
     <a href="model/roulette.html" class="game-card-wrapper c-roulette">
@@ -62,6 +62,7 @@
         </svg>
         <div class="game-icon-container">
           <svg class="game-icon-svg" viewBox="0 0 100 100">
+            <!-- icono de ruleta -->
             <circle cx="50" cy="50" r="40" />
             <circle cx="50" cy="50" r="20" />
             <line x1="50" y1="10" x2="50" y2="90" />
@@ -69,8 +70,8 @@
           </svg>
         </div>
         <div class="card-content">
-          <div class="card-title" data-i18n="lobby.roulette.title">ROULETTE</div>
-          <div class="card-desc" data-i18n="lobby.roulette.desc">Simulate the wheel with radial staggered motion.</div>
+          <div class="card-title" data-i18n="lobby.roulette.title">RULETA</div>
+          <div class="card-desc" data-i18n="lobby.roulette.desc">simula la rueda con estetica premium.</div>
         </div>
       </div>
     </a>
@@ -82,13 +83,13 @@
         </svg>
         <div class="game-icon-container">
           <svg class="game-icon-svg" viewBox="0 0 100 100">
+            <!-- icono de pica -->
             <path d="M50 20 C50 20, 80 10, 80 50 C80 80, 50 90, 50 90 C50 90, 20 80, 20 50 C20 10, 50 20, 50 20 Z" />
           </svg>
         </div>
         <div class="card-content">
           <div class="card-title" data-i18n="lobby.blackjack.title">BLACKJACK</div>
-          <div class="card-desc" data-i18n="lobby.blackjack.desc">Elastic playing card timelines and 3D transforms.
-          </div>
+          <div class="card-desc" data-i18n="lobby.blackjack.desc">cartas fisicas realistas y mesa lujosa.</div>
         </div>
       </div>
     </a>
@@ -105,8 +106,8 @@
           </svg>
         </div>
         <div class="card-content">
-          <div class="card-title" data-i18n="lobby.sports.title">SPORTS</div>
-          <div class="card-desc" data-i18n="lobby.sports.desc">Grid orchestrations and slip state updates.</div>
+          <div class="card-title" data-i18n="lobby.sports.title">DEPORTES</div>
+          <div class="card-desc" data-i18n="lobby.sports.desc">billetes de apuesta de alta gama.</div>
         </div>
       </div>
     </a>
@@ -114,285 +115,17 @@
   </div>
 
   <div class="footer-links">
-    <a href="contact.html" class="footer-link" data-i18n="footer.contact">CONTACT</a>
-    <a href="advertense.html" class="footer-link" data-i18n="footer.advertense">RESPONSIBLE GAMING</a>
+    <a href="contact.html" class="footer-link" data-i18n="footer.contact">CONTACTO</a>
+    <a href="advertense.html" class="footer-link" data-i18n="footer.advertense">JUEGO RESPONSABLE</a>
   </div>
 
-  <!-- Anime.js Integration -->
+  <!-- integracion de anime.js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
-  <!-- Languages Script -->
+  <!-- script de idiomas -->
   <script src="languages/languages.js"></script>
+  <!-- logica principal -->
+  <script src="background.js"></script>
 
-  <script>
-    // Utility function: Split text into letters wrapped in spans
-    function splitTextToSpans(elementSelector, spanClass) {
-      const el = document.querySelector(elementSelector);
-      if (!el) return;
-      // Handle words specifically if needed, but for simplicity we split chars 
-      // except spaces. 
-      const html = el.innerText.split(' ').map(word => {
-        const letters = word.split('').map(char => `<span class="${spanClass}">${char}</span>`).join('');
-        return `<span class="word">${letters}</span>`;
-      }).join(' ');
-      el.innerHTML = html;
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-
-      // 1. GENERATE BACKGROUND SVGS
-      const bgCanvas = document.getElementById('bg-canvas');
-      const colors = ['#00F0FF', '#FF00FF', '#FFD700', '#FF073A'];
-      const shapesNum = 20;
-
-      for (let i = 0; i < shapesNum; i++) {
-        const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-        svg.setAttribute('class', 'bg-shape');
-        svg.setAttribute('viewBox', '0 0 100 100');
-        svg.setAttribute('width', Math.random() * 100 + 50);
-        svg.setAttribute('height', Math.random() * 100 + 50);
-        svg.style.left = `${Math.random() * 100}vw`;
-        svg.style.top = `${Math.random() * 100}vh`;
-        svg.style.stroke = colors[Math.floor(Math.random() * colors.length)];
-
-        const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-        // Random paths (diamonds, triangles, lines)
-        const dType = Math.floor(Math.random() * 3);
-        if (dType === 0) path.setAttribute('d', 'M50 0 L100 50 L50 100 L0 50 Z'); // Diamond
-        else if (dType === 1) path.setAttribute('d', 'M50 0 L100 100 L0 100 Z'); // Triangle
-        else path.setAttribute('d', 'M10 10 L90 90 M10 90 L90 10'); // X
-
-        svg.appendChild(path);
-        bgCanvas.appendChild(svg);
-      }
-
-      // Background Animation Timeline
-      anime({
-        targets: '.bg-shape path',
-        strokeDashoffset: [anime.setDashoffset, 0],
-        easing: 'easeInOutSine',
-        duration: function (el, i) { return anime.random(2000, 4000); },
-        delay: function (el, i) { return anime.random(0, 2000); },
-        direction: 'alternate',
-        loop: true
-      });
-
-      anime({
-        targets: '.bg-shape',
-        translateY: function () { return anime.random(-100, 100); },
-        rotate: function () { return anime.random(-360, 360); },
-        scale: function () { return anime.random(0.5, 1.5); },
-        easing: 'easeInOutQuad',
-        duration: function () { return anime.random(5000, 10000); },
-        direction: 'alternate',
-        loop: true
-      });
-
-      // 2. INITIAL LOAD TIMELINE
-      splitTextToSpans('#logo-text', 'letter');
-      splitTextToSpans('#hero-title', 'letter');
-      splitTextToSpans('#btn-text', 'btn-letter');
-
-      const tlLoad = anime.timeline({ easing: 'easeOutExpo' });
-
-      tlLoad
-        .add({
-          targets: '.logo-path',
-          strokeDashoffset: [anime.setDashoffset, 0],
-          duration: 1500,
-          easing: 'easeInOutSine'
-        })
-        .add({
-          targets: '#logo-text .letter',
-          translateY: ['100%', '0%'],
-          opacity: [0, 1],
-          duration: 800,
-          delay: anime.stagger(50)
-        }, '-=1000')
-        /* Header Controls */
-        .add({
-          targets: '.controls',
-          opacity: [0, 1],
-          translateX: [20, 0],
-          duration: 1000
-        }, '-=800')
-        /* Hero Title */
-        .add({
-          targets: '#hero-title .letter',
-          translateY: ['100%', '0%'],
-          translateZ: 0,
-          opacity: [0, 1],
-          duration: 1200,
-          delay: anime.stagger(20)
-        }, '-=1000')
-        /* Subtitle */
-        .add({
-          targets: '#hero-subtitle',
-          opacity: [0, 1],
-          translateY: [20, 0],
-          duration: 1000
-        }, '-=800')
-        /* Button */
-        .add({
-          targets: '#btn-text .btn-letter',
-          opacity: [0, 1],
-          translateY: [20, 0],
-          duration: 800,
-          delay: anime.stagger(30)
-        }, '-=800')
-        /* Game Cards Grid */
-        .add({
-          targets: '.game-card-wrapper',
-          translateY: [100, 0],
-          opacity: [0, 1],
-          duration: 1000,
-          delay: anime.stagger(150, { start: 300 })
-        }, '-=1000');
-
-
-      // 3. BUTTON HOVER INTERACTION
-      const btnWrapper = document.getElementById('main-play-btn');
-      const btnRect = btnWrapper.querySelector('rect');
-      const btnLetters = btnWrapper.querySelectorAll('.btn-letter');
-
-      let hoverAnim;
-      btnWrapper.addEventListener('mouseenter', () => {
-        if (hoverAnim) hoverAnim.pause();
-        hoverAnim = anime.timeline()
-          .add({
-            targets: btnRect,
-            strokeDashoffset: [400, 0],
-            stroke: '#00F0FF',
-            duration: 600,
-            easing: 'easeOutQuart'
-          })
-          .add({
-            targets: btnLetters,
-            color: '#00F0FF',
-            scale: [1, 1.1],
-            duration: 300,
-            delay: anime.stagger(20),
-            easing: 'easeOutBack'
-          }, 0);
-      });
-
-      btnWrapper.addEventListener('mouseleave', () => {
-        if (hoverAnim) hoverAnim.pause();
-        hoverAnim = anime.timeline()
-          .add({
-            targets: btnRect,
-            strokeDashoffset: 400,
-            stroke: '#FFD700',
-            duration: 600,
-            easing: 'easeOutQuart'
-          })
-          .add({
-            targets: btnLetters,
-            color: '#FFD700',
-            scale: 1,
-            duration: 300,
-            easing: 'easeOutQuad'
-          }, 0);
-      });
-
-      // 4. GAME CARDS HOVER AND 3D TILT
-      document.querySelectorAll('.game-card-wrapper').forEach(cardWrap => {
-        const crd = cardWrap.querySelector('.game-card');
-        const svgBorder = cardWrap.querySelector('.card-svg-border rect');
-        const icon = cardWrap.querySelector('.game-icon-svg');
-        const desc = cardWrap.querySelector('.card-desc');
-        const titleLts = cardWrap.querySelectorAll('.card-title .letter'); // if split
-
-        cardWrap.addEventListener('mousemove', (e) => {
-          const rect = cardWrap.getBoundingClientRect();
-          const x = e.clientX - rect.left;
-          const y = e.clientY - rect.top;
-          const xRot = 20 * ((y - rect.height / 2) / rect.height);
-          const yRot = -20 * ((x - rect.width / 2) / rect.width);
-
-          crd.style.transform = `rotateX(${xRot}deg) rotateY(${yRot}deg) scale3d(1.05, 1.05, 1.05)`;
-        });
-
-        cardWrap.addEventListener('mouseenter', () => {
-          // SVG border draw
-          anime.remove(svgBorder);
-          anime({
-            targets: svgBorder,
-            strokeDashoffset: [1400, 0],
-            strokeOpacity: [0, 1],
-            duration: 800,
-            easing: 'easeOutQuart'
-          });
-          // Icon float
-          anime.remove(icon);
-          anime({
-            targets: icon,
-            translateZ: 100,
-            opacity: 0.8,
-            duration: 400,
-            easing: 'easeOutBack'
-          });
-          // Desc reveal
-          anime.remove(desc);
-          anime({
-            targets: desc,
-            translateY: [20, 0],
-            opacity: [0, 1],
-            duration: 400,
-            delay: 100,
-            easing: 'easeOutExpo'
-          });
-        });
-
-        cardWrap.addEventListener('mouseleave', () => {
-          crd.style.transform = `rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
-          crd.style.transition = 'transform 0.5s ease-out';
-          setTimeout(() => { crd.style.transition = ''; }, 500);
-
-          anime.remove(svgBorder);
-          anime({
-            targets: svgBorder,
-            strokeDashoffset: 1400,
-            strokeOpacity: 0,
-            duration: 800,
-            easing: 'easeOutQuart'
-          });
-
-          anime.remove(icon);
-          anime({
-            targets: icon,
-            translateZ: 0,
-            opacity: 0.3,
-            duration: 400,
-            easing: 'easeOutQuad'
-          });
-
-          anime.remove(desc);
-          anime({
-            targets: desc,
-            translateY: 20,
-            opacity: 0,
-            duration: 300,
-            easing: 'easeOutQuad'
-          });
-        });
-      });
-
-    });
-
-    // Dummy wallet logic hook for numbers rolling demonstration
-    window.addEventListener('load', () => {
-      const wAmt = document.getElementById('credits-amount');
-      const obj = { val: 0 };
-      anime({
-        targets: obj,
-        val: 15000,
-        round: 1,
-        duration: 2500,
-        easing: 'easeOutElastic(1, .8)',
-        update: () => { wAmt.innerText = obj.val.toLocaleString(); }
-      });
-    });
-  </script>
 </body>
 
 </html>

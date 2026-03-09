@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cyber Roulette | Project Casino</title>
+    <title>ruleta royale | casino</title>
     <link rel="stylesheet" href="../style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     <style>
@@ -24,15 +24,15 @@
             }
         }
 
-        /* Wheel UI */
+        /* ui de la rueda lujosa */
         .wheel-wrapper {
             position: relative;
             width: 300px;
             height: 300px;
             border-radius: 50%;
-            border: 4px solid var(--neon-purple);
-            box-shadow: 0 0 30px rgba(191, 64, 255, 0.4);
-            background: conic-gradient(from 0deg, #1f0133, #000, #1f0133);
+            border: 8px solid var(--neon-gold);
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.5), inset 0 0 40px rgba(0, 0, 0, 0.8);
+            background: conic-gradient(from 0deg, #110909, #2a0b0b, #110909);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -40,42 +40,58 @@
         }
 
         .wheel-inner {
-            width: 250px;
-            height: 250px;
+            width: 240px;
+            height: 240px;
             border-radius: 50%;
-            border: 2px dashed rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(212, 175, 55, 0.4);
             display: flex;
             justify-content: center;
             align-items: center;
             font-size: 3rem;
-            color: rgba(255, 255, 255, 0.1);
+            color: rgba(212, 175, 55, 0.2);
+            background: radial-gradient(circle, #2a0b0b 0%, #0b0505 100%);
         }
 
         .ball {
             position: absolute;
-            top: 20px;
+            top: 25px;
             left: 50%;
-            width: 15px;
-            height: 15px;
-            background: var(--neon-green);
+            width: 14px;
+            height: 14px;
+            background: #fff;
             border-radius: 50%;
-            box-shadow: 0 0 15px var(--neon-green);
+            box-shadow: 0 0 10px #fff, inset -2px -2px 4px rgba(0, 0, 0, 0.5);
             transform: translateX(-50%);
-            transform-origin: 0 130px;
-            /* Radius */
+            transform-origin: 0 125px;
         }
 
-        /* Board UI */
+        /* ui del tablero de lujo */
         .board-wrapper {
             background: var(--bg-panel);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: var(--border-radius);
-            padding: var(--spacing-md);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-lg);
             flex: 1;
-            max-width: 600px;
+            max-width: 650px;
             display: flex;
             flex-direction: column;
             gap: var(--spacing-md);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+            position: relative;
+        }
+
+        /* textura del tapete */
+        .board-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--neon-green);
+            opacity: 0.15;
+            pointer-events: none;
+            border-radius: var(--border-radius-lg);
         }
 
         .bet-grid {
@@ -83,35 +99,40 @@
             grid-template-columns: repeat(12, 1fr);
             grid-template-rows: repeat(3, 60px);
             gap: 4px;
+            position: relative;
+            z-index: 1;
         }
 
         .bet-cell {
-            background: rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(212, 175, 55, 0.2);
             border-radius: 4px;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-family: 'Outfit';
+            font-family: var(--font-sans);
             font-weight: 700;
-            color: white;
+            color: var(--text-main);
             cursor: pointer;
             transition: all 0.2s ease;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.8);
         }
 
         .bet-cell:hover,
         .bet-cell.active {
-            background: rgba(57, 255, 20, 0.2);
-            border-color: var(--neon-green);
-            box-shadow: inset 0 0 10px rgba(57, 255, 20, 0.2);
+            background: rgba(212, 175, 55, 0.3);
+            border-color: var(--neon-gold);
+            box-shadow: inset 0 0 15px rgba(212, 175, 55, 0.5);
         }
 
         .cell-red {
-            color: var(--neon-red);
+            color: #ff4d4d;
+            background: rgba(139, 0, 0, 0.4);
         }
 
         .cell-black {
-            color: #888;
+            color: #ccc;
+            background: rgba(10, 10, 10, 0.8);
         }
 
         .bet-controls {
@@ -119,41 +140,46 @@
             justify-content: space-between;
             align-items: center;
             padding-top: var(--spacing-md);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+            position: relative;
+            z-index: 1;
         }
 
         .chip-selector {
             display: flex;
-            gap: 10px;
+            gap: 15px;
         }
 
         .chip {
-            width: 40px;
-            height: 40px;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             font-weight: bold;
+            font-family: var(--font-sans);
             cursor: pointer;
-            border: 2px solid;
-            background: #000;
-            transition: transform 0.2s;
+            border: 3px dashed;
+            background: radial-gradient(circle, #333 0%, #000 100%);
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.8);
         }
 
         .chip:hover,
         .chip.active {
             transform: scale(1.1);
+            box-shadow: 0 0 15px var(--neon-gold);
         }
 
         .chip-10 {
-            border-color: #fff;
-            color: #fff;
+            border-color: #aaa;
+            color: #aaa;
         }
 
         .chip-50 {
-            border-color: var(--neon-blue);
-            color: var(--neon-blue);
+            border-color: #4da6ff;
+            color: #4da6ff;
         }
 
         .chip-100 {
@@ -162,22 +188,23 @@
         }
 
         .chip-500 {
-            border-color: var(--neon-purple);
-            color: var(--neon-purple);
+            border-color: #b366ff;
+            color: #b366ff;
         }
 
-        /* Floating bet amount */
+        /* etiqueta de monto de apuesta */
         .bet-amount-tag {
             position: absolute;
             background: var(--neon-gold);
             color: #000;
             font-size: 0.7rem;
-            padding: 2px 4px;
+            padding: 2px 6px;
             border-radius: 10px;
             top: -5px;
             right: -5px;
             font-weight: bold;
             pointer-events: none;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
         }
     </style>
 </head>
@@ -187,8 +214,10 @@
 
     <nav class="navbar" id="top-nav">
         <a href="../index.html" class="nav-logo">
-            <div class="logo-accent"></div>
-            CASINO
+            <svg class="logo-svg" viewBox="0 0 100 100" style="width:30px;height:30px;">
+                <path d="M50 10 L90 50 L50 90 L10 50 Z" />
+            </svg>
+            <span style="font-family: var(--font-mono); font-size: 1.5rem; letter-spacing: 2px;">ROYALE</span>
         </a>
         <div class="nav-controls">
             <div class="wallet-box" id="wallet-display">
@@ -208,19 +237,20 @@
     <main class="container">
         <div class="game-container">
 
-            <!-- Left: Wheel -->
+            <!-- izquierda: rueda -->
             <div class="wheel-wrapper" id="wheel">
                 <div class="wheel-inner">❂</div>
                 <div class="ball" id="roulette-ball"></div>
             </div>
 
-            <!-- Right: Board -->
+            <!-- derecha: tablero -->
             <div class="board-wrapper">
-                <h2 class="neon-title" style="font-size: 1.5rem; text-align: center; margin-bottom: 0;">Cyber Roulette
+                <h2 class="neon-title"
+                    style="font-size: 1.8rem; text-align: center; margin-bottom: 0px; text-shadow: none;">ruleta premium
                 </h2>
 
                 <div class="bet-grid" id="bet-grid">
-                    <!-- Handled by JS for brevity -->
+                    <!-- generado por js -->
                 </div>
 
                 <div class="bet-controls">
@@ -230,9 +260,9 @@
                         <div class="chip chip-100" data-val="100">100</div>
                         <div class="chip chip-500" data-val="500">500</div>
                     </div>
-                    <button class="btn-neon" id="spin-btn">
+                    <button class="btn-luxury" id="spin-btn">
                         <span class="btn-bg"></span>
-                        <span>SPIN</span>
+                        <span>GIRAR</span>
                     </button>
                 </div>
             </div>
@@ -243,7 +273,7 @@
     <script src="../logic/wallet.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // 1. Generate Grid
+            // 1. generar cuadricula
             const grid = document.getElementById('bet-grid');
             let cellsHTML = '';
             for (let i = 1; i <= 36; i++) {
@@ -252,7 +282,7 @@
             }
             grid.innerHTML = cellsHTML;
 
-            // 2. Chip Logic
+            // 2. logica de fichas
             let currentChipVal = 10;
             document.querySelectorAll('.chip').forEach(chip => {
                 chip.addEventListener('click', (e) => {
@@ -262,7 +292,7 @@
                 });
             });
 
-            // 3. Betting Logic
+            // 3. logica de apuestas
             let totalBet = 0;
             let activeBets = {};
 
@@ -283,42 +313,46 @@
                     }
                     tag.innerText = activeBets[num];
 
-                    // Small pop animation
+                    // animacion pequena de pozo
                     anime({
                         targets: cell,
-                        scale: [0.9, 1],
-                        duration: 300
+                        scale: [0.95, 1],
+                        duration: 300,
+                        easing: 'easeOutQuad'
                     });
                 });
             });
 
-            // 4. Spin Action
+            // 4. accion de girar
             const spinBtn = document.getElementById('spin-btn');
             spinBtn.addEventListener('click', async () => {
-                if (totalBet === 0) return alert("Place a bet first!");
+                if (totalBet === 0) {
+                    alert("apuesta primero");
+                    return;
+                }
 
-                // Use wallet
+                // usar billetera
                 const success = await window.casinoWallet.wager(totalBet);
-                if (!success) return; // Insufficient funds handled by wallet.js
+                if (!success) return;
 
                 spinBtn.disabled = true;
                 spinBtn.style.opacity = '0.5';
 
-                // Animate Ball
+                // animar bola con fisicas mas realistas
                 anime({
                     targets: '#roulette-ball',
-                    rotate: [0, 360 * 5 + Math.floor(Math.random() * 360)], // 5 spins + random stop
-                    duration: 4000,
-                    easing: 'easeOutCubic',
+                    rotate: [0, 360 * 6 + Math.floor(Math.random() * 360)], // 6 giros + parada aleatoria
+                    duration: 6000,
+                    easing: 'easeOutCirc', // friccion realista
                     complete: async () => {
-                        // Fake win calculation (30% chance to win something based on bets)
-                        const winAmount = Math.random() > 0.7 ? totalBet * 2 : 0;
+                        // calculo de ganancia falso (probabilidad del 30%)
+                        const winAmount = Math.random() > 0.7 ? totalBet * 3 : 0;
 
                         if (winAmount > 0) {
                             await window.casinoWallet.win(winAmount);
                         }
 
-                        // Reset bets
+                        // reiniciar apuestas
                         totalBet = 0;
                         activeBets = {};
                         document.querySelectorAll('.bet-amount-tag').forEach(el => el.remove());
@@ -330,15 +364,36 @@
                 });
             });
 
-            // Page entry animation
+            // animacion de entrada
             anime({
                 targets: '.game-container > div',
-                translateY: [50, 0],
+                translateY: [30, 0],
                 opacity: [0, 1],
                 delay: anime.stagger(200),
-                duration: 800,
+                duration: 1000,
                 easing: 'easeOutQuad'
             });
+
+            // inicializar particulas de fondo si existe fucion global, o crear simplificadas
+            const bgCanvas = document.getElementById('bg-canvas');
+            if (bgCanvas) {
+                for (let i = 0; i < 20; i++) {
+                    const p = document.createElement('div');
+                    p.className = 'luxury-particle';
+                    p.style.width = '4px'; p.style.height = '4px';
+                    p.style.left = Math.random() * 100 + 'vw';
+                    p.style.top = Math.random() * 100 + 'vh';
+                    bgCanvas.appendChild(p);
+                }
+                anime({
+                    targets: '.luxury-particle',
+                    translateY: -100,
+                    opacity: [0, 0.5, 0],
+                    duration: function () { return anime.random(3000, 6000); },
+                    loop: true,
+                    easing: 'linear'
+                });
+            }
         });
     </script>
 </body>

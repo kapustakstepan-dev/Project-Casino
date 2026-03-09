@@ -1,27 +1,43 @@
 /* =========================================
-   STYLE.CSS - PROJECT CASINO (Anime.js Homage)
+   estilos globales - casino royale
    ========================================= */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@400;700&display=swap');
 
 :root {
-    /* Matte Black Background */
-    --bg-color: #0b0c10;
-    --surface-color: #12141a;
+    /* fondos oscuros lujosos */
+    --bg-color: #0b0505;
+    /* rojo ultra oscuro / negro */
+    --surface-color: #1a0f0f;
+    --bg-panel: #110909;
 
-    /* Electric Neon Colors */
-    --neon-gold: #FFD700;
-    --neon-cyan: #00F0FF;
-    --neon-magenta: #FF00FF;
-    --jackpot-red: #FF073A;
+    /* acentos premium */
+    --neon-gold: #D4AF37;
+    --neon-red: #8B0000;
+    --neon-green: #013220;
+    --neon-blue: #D4AF37;
+    /* remapeado a dorado para compatibilidad */
+    --neon-purple: #D4AF37;
+    /* remapeado a dorado para compatibilidad */
 
-    /* Text */
-    --text-main: #FFFFFF;
-    --text-muted: #6b7280;
-    --text-dark: #0b0c10;
+    /* texto */
+    --text-main: #FDF5E6;
+    /* crema */
+    --text-muted: #B8860B;
+    /* dorado oscuro */
+    --text-dark: #0b0505;
 
-    --font-sans: 'Inter', sans-serif;
-    --font-mono: 'Space Mono', monospace;
+    /* tipografia */
+    --font-sans: 'Montserrat', sans-serif;
+    --font-mono: 'Playfair Display', serif;
+    /* reemplazamos mono por serif elegante */
+
+    /* espaciados y bordes */
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 40px;
+    --border-radius: 4px;
+    --border-radius-lg: 8px;
 }
 
 * {
@@ -32,6 +48,7 @@
 
 body {
     background-color: var(--bg-color);
+    background-image: radial-gradient(circle at 50% 0%, #200d0d 0%, #0b0505 80%);
     color: var(--text-main);
     font-family: var(--font-sans);
     overflow-x: hidden;
@@ -41,7 +58,7 @@ body {
 }
 
 /* =========================================
-   BACKGROUND SVG ANIMATIONS
+   animaciones de fondo (particulas de lujo)
    ========================================= */
 .bg-animation-container {
     position: fixed;
@@ -54,16 +71,17 @@ body {
     overflow: hidden;
 }
 
-.bg-shape {
+.bg-shape,
+.luxury-particle {
     position: absolute;
-    fill: none;
-    stroke-width: 1;
-    stroke: var(--neon-cyan);
-    opacity: 0.15;
+    background-color: var(--neon-gold);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--neon-gold), 0 0 20px #FFDF00;
+    opacity: 0.8;
 }
 
 /* =========================================
-   NAVBAR
+   navegacion
    ========================================= */
 .navbar {
     display: flex;
@@ -71,32 +89,40 @@ body {
     align-items: center;
     padding: 2rem 4rem;
     z-index: 10;
+    border-bottom: 2px solid rgba(212, 175, 55, 0.2);
+    background: linear-gradient(180deg, rgba(11, 5, 5, 0.9) 0%, rgba(11, 5, 5, 0) 100%);
 }
 
-.logo-container {
+.logo-container,
+.nav-logo {
     display: flex;
     align-items: center;
     gap: 1rem;
+    text-decoration: none;
+    color: var(--neon-gold);
 }
 
-/* SVG Logo */
+/* logo svg */
 .logo-svg {
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     fill: none;
     stroke: var(--neon-gold);
-    stroke-width: 2;
+    stroke-width: 2.5;
     stroke-linecap: round;
     stroke-linejoin: round;
+    filter: drop-shadow(0 0 5px rgba(212, 175, 55, 0.8));
 }
 
 .logo-text {
     font-family: var(--font-mono);
     font-weight: 700;
-    font-size: 1.5rem;
-    letter-spacing: 0.2rem;
+    font-size: 2rem;
+    letter-spacing: 0.3rem;
     display: flex;
     overflow: hidden;
+    color: var(--neon-gold);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
 }
 
 .letter {
@@ -104,35 +130,47 @@ body {
     transform-origin: 50% 100%;
 }
 
-/* Top Right Controls */
-.controls {
+/* controles derechos */
+.controls,
+.nav-controls {
     display: flex;
     align-items: center;
     gap: 2rem;
 }
 
-/* Wallet */
-.wallet {
+/* billetera */
+.wallet,
+.wallet-box {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    background: var(--surface-color);
+    background: linear-gradient(135deg, #1f140e 0%, #0a0502 100%);
     padding: 0.5rem 1rem;
-    border: 1px solid rgba(0, 240, 255, 0.2);
+    border: 1px solid var(--neon-gold);
     border-radius: 4px;
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-weight: 700;
     position: relative;
     overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6), inset 0 0 10px rgba(212, 175, 55, 0.1);
 }
 
-.wallet-amount {
-    color: var(--neon-cyan);
+.wallet-amount,
+.wallet-balance span {
+    color: var(--neon-gold);
     font-size: 1.2rem;
     display: inline-block;
 }
 
-/* Language Switcher */
+.currency {
+    color: var(--text-muted);
+}
+
+.wallet-icon {
+    color: var(--neon-gold);
+}
+
+/* seleccion de idioma */
 .lang-switcher {
     display: flex;
     gap: 1rem;
@@ -142,12 +180,12 @@ body {
     background: none;
     border: none;
     color: var(--text-muted);
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-weight: 700;
     cursor: pointer;
     position: relative;
     font-size: 0.9rem;
-    transition: color 0.3s;
+    transition: color 0.3s, text-shadow 0.3s;
 }
 
 .lang-btn::after {
@@ -157,18 +195,19 @@ body {
     left: 0;
     width: 100%;
     height: 2px;
-    background: var(--neon-magenta);
+    background: var(--neon-gold);
     transform: scaleX(0);
     transform-origin: right;
     transition: transform 0.3s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 .lang-btn:hover {
-    color: var(--text-main);
+    color: var(--neon-gold);
+    text-shadow: 0 0 5px rgba(212, 175, 55, 0.5);
 }
 
 .lang-btn.active {
-    color: var(--text-main);
+    color: var(--neon-gold);
 }
 
 .lang-btn.active::after {
@@ -177,7 +216,7 @@ body {
 }
 
 /* =========================================
-   MAIN HERO
+   seccion hero principal
    ========================================= */
 .hero {
     flex: 1;
@@ -187,40 +226,43 @@ body {
     justify-content: center;
     text-align: center;
     padding: 4rem 2rem;
+    position: relative;
+    z-index: 1;
 }
 
-.hero-title {
+.hero-title,
+.neon-title {
     font-family: var(--font-mono);
-    font-size: 4rem;
-    font-weight: 900;
+    font-size: 4.5rem;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: -2px;
+    letter-spacing: 2px;
     line-height: 1.1;
     margin-bottom: 1.5rem;
-    color: var(--text-main);
-    /* Text split into lines/words/letters via JS */
+    color: var(--neon-gold);
+    text-shadow: 0 5px 15px rgba(0, 0, 0, 0.8), 0 0 20px rgba(212, 175, 55, 0.3);
 }
 
 .hero-title .word {
     display: inline-block;
     overflow: hidden;
     padding-bottom: 10px;
-    /* Space for descenders */
     margin-right: 15px;
 }
 
 .hero-subtitle {
     font-size: 1.2rem;
-    color: var(--text-muted);
-    max-width: 600px;
+    color: var(--text-main);
+    max-width: 700px;
     line-height: 1.6;
     margin-bottom: 3rem;
     opacity: 0;
-    /* Animated in */
+    font-family: var(--font-sans);
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 1);
 }
 
 /* =========================================
-   BUTTONS (Anime.js style border draw)
+   botones (estilo lujo)
    ========================================= */
 .btn-wrapper {
     position: relative;
@@ -238,27 +280,27 @@ body {
 }
 
 .btn-svg rect {
-    fill: none;
+    fill: rgba(0, 0, 0, 0.4);
     stroke: var(--neon-gold);
     stroke-width: 2;
     stroke-dasharray: 400;
-    /* Approximate max perimeter */
     stroke-dashoffset: 400;
 }
 
 .btn-text-content {
     position: relative;
-    padding: 1rem 3rem;
-    font-family: var(--font-mono);
+    padding: 1.2rem 4rem;
+    font-family: var(--font-sans);
     font-weight: 700;
-    font-size: 1rem;
-    letter-spacing: 2px;
-    color: var(--neon-gold);
-    background: transparent;
+    font-size: 1.1rem;
+    letter-spacing: 3px;
+    color: var(--text-main);
+    background: linear-gradient(135deg, rgba(139, 0, 0, 0.8) 0%, rgba(50, 0, 0, 0.9) 100%);
     display: flex;
     overflow: hidden;
     z-index: 1;
-    border: 1px solid rgba(255, 215, 0, 0.2);
+    border: 1px solid var(--neon-gold);
+    box-shadow: inset 0 0 15px rgba(212, 175, 55, 0.2), 0 5px 15px rgba(0, 0, 0, 0.6);
 }
 
 .btn-letter {
@@ -266,8 +308,62 @@ body {
     white-space: pre;
 }
 
+/* botones normales (btn-neon mapeado a btn-luxury) */
+.btn-neon,
+.btn-luxury {
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.9) 0%, rgba(139, 117, 0, 0.9) 100%);
+    border: 1px solid var(--neon-gold);
+    color: #000 !important;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-family: var(--font-sans);
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s;
+    outline: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-neon span {
+    position: relative;
+    z-index: 2;
+    color: #000 !important;
+}
+
+.btn-neon .btn-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(100%);
+    transition: transform 0.3s;
+    z-index: 1;
+}
+
+.btn-neon:hover .btn-bg,
+.btn-luxury:hover {
+    transform: translateY(0);
+    filter: brightness(1.2);
+}
+
+.btn-neon.secondary,
+.btn-outline {
+    background: transparent;
+    border: 1px solid var(--neon-gold);
+    color: var(--neon-gold) !important;
+}
+
+.btn-neon.secondary:hover,
+.btn-outline:hover {
+    background: rgba(212, 175, 55, 0.1);
+}
+
 /* =========================================
-   GAME LAUNCHER GRID 
+   cuadricula de tarjetas (lobby)
    ========================================= */
 .grid-container {
     width: 100%;
@@ -275,13 +371,15 @@ body {
     margin: 0 auto 4rem auto;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    perspective: 1000px;
+    gap: 3rem;
+    perspective: 1200px;
+    position: relative;
+    z-index: 1;
 }
 
 .game-card-wrapper {
     position: relative;
-    height: 400px;
+    height: 420px;
     text-decoration: none;
     color: inherit;
     display: block;
@@ -290,15 +388,31 @@ body {
 .game-card {
     width: 100%;
     height: 100%;
-    background: var(--surface-color);
+    background: linear-gradient(135deg, #1c0f0f 0%, #0a0505 100%);
     border-radius: 8px;
     position: relative;
     z-index: 2;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    padding: 2rem;
+    padding: 2.5rem;
     transform-style: preserve-3d;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), inset 0 0 30px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+/* textura sutil */
+.game-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="4" height="4"><rect width="4" height="4" fill="none" /><path d="M0 0L4 4ZM4 0L0 4Z" stroke="rgba(255,255,255,0.02)" stroke-width="1"/></svg>');
+    opacity: 0.5;
+    pointer-events: none;
+    z-index: -1;
 }
 
 .card-svg-border {
@@ -315,31 +429,19 @@ body {
     fill: none;
     stroke-width: 2;
     stroke-dasharray: 1400;
-    /* Approximate perimeter 2*(300+400) */
     stroke-dashoffset: 1400;
     rx: 8;
     ry: 8;
-}
-
-.c-roulette rect {
-    stroke: var(--neon-cyan);
-}
-
-.c-blackjack rect {
-    stroke: var(--neon-magenta);
-}
-
-.c-sports rect {
     stroke: var(--neon-gold);
 }
 
 .game-icon-container {
     position: absolute;
-    top: 50%;
+    top: 40%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 100px;
-    height: 100px;
+    width: 120px;
+    height: 120px;
 }
 
 .game-icon-svg {
@@ -349,73 +451,113 @@ body {
     stroke-width: 1.5;
     stroke-linecap: round;
     stroke-linejoin: round;
-    opacity: 0.3;
-}
-
-.c-roulette .game-icon-svg {
-    stroke: var(--neon-cyan);
-}
-
-.c-blackjack .game-icon-svg {
-    stroke: var(--neon-magenta);
-}
-
-.c-sports .game-icon-svg {
+    opacity: 0.5;
     stroke: var(--neon-gold);
 }
 
 .card-content {
     transform: translateZ(50px);
-    /* 3D effect internally */
 }
 
 .card-title {
     font-family: var(--font-mono);
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     font-weight: 700;
     margin-bottom: 0.5rem;
     overflow: hidden;
     display: flex;
-}
-
-.c-roulette .card-title {
-    color: var(--neon-cyan);
-}
-
-.c-blackjack .card-title {
-    color: var(--neon-magenta);
-}
-
-.c-sports .card-title {
     color: var(--neon-gold);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.9);
 }
 
 .card-desc {
-    color: var(--text-muted);
-    font-size: 0.9rem;
+    color: var(--text-main);
+    font-size: 1rem;
     line-height: 1.5;
     transform: translateY(20px);
     opacity: 0;
 }
 
-/* Footer links */
+/* =========================================
+   enlaces del pie de pagina
+   ========================================= */
 .footer-links {
     margin-top: auto;
     padding: 2rem;
     display: flex;
     justify-content: center;
-    gap: 2rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    gap: 3rem;
+    border-top: 1px solid rgba(212, 175, 55, 0.2);
+    position: relative;
+    z-index: 1;
+    background: rgba(0, 0, 0, 0.5);
 }
 
 .footer-link {
     color: var(--text-muted);
-    font-family: var(--font-mono);
-    font-size: 0.9rem;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 1rem;
     text-decoration: none;
     transition: color 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .footer-link:hover {
-    color: var(--neon-cyan);
+    color: var(--neon-gold);
+}
+
+
+/* =========================================
+   puerta de edad (age gate modal)
+   ========================================= */
+.age-gate-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(10px);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.age-gate-box {
+    background: linear-gradient(135deg, #2a0b0b 0%, #110505 100%);
+    padding: 3rem;
+    border-radius: 8px;
+    border: 2px solid var(--neon-gold);
+    box-shadow: 0 0 50px rgba(0, 0, 0, 1), inset 0 0 20px rgba(212, 175, 55, 0.2);
+    text-align: center;
+    max-width: 500px;
+    width: 90%;
+}
+
+.age-gate-title {
+    font-family: var(--font-mono);
+    color: var(--neon-gold);
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+}
+
+.age-gate-text {
+    font-family: var(--font-sans);
+    color: var(--text-main);
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+}
+
+.age-gate-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.container {
+    padding: 0 4rem;
 }
